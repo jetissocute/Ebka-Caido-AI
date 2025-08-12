@@ -1,0 +1,18 @@
+@import "./caido.css";
+@import "./primevue.css";
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+/* Global styles to prevent page scroll */
+html, body {
+  height: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+#app {
+  height: 100vh;
+  overflow: hidden;
+}

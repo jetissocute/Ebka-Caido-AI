@@ -1,13 +1,13 @@
 export const tools_description = [
-    {
-      "name": "list_by_httpql",
-      "description": "List proxied requests (HTTP history) by HTTPQL query",
-      "input_schema": {
-          "type": "object",
-          "properties": {
-              "httpql": {
-                  "type": "string",
-                  "description": `The HTTPQL query to filter requests. HTTPQL is the query language we use in Caido to let you filtering requests and responses.
+  {
+    name: "list_by_httpql",
+    description: "List proxied requests (HTTP history) by HTTPQL query",
+    input_schema: {
+      type: "object",
+      properties: {
+        httpql: {
+          type: "string",
+          description: `The HTTPQL query to filter requests. HTTPQL is the query language we use in Caido to let you filtering requests and responses.
 req: HTTP requests.
 resp: HTTP responses.
 row: A table row.
@@ -90,597 +90,616 @@ ISO9075 - example: 2024-06-24T17:03:48Z
 
 Example:
 (req.host.eq:"example.com" AND req.path.cont:"/api/") OR (req.created_at.gt:"2024-06-24T17:03:48+00:00")
-`
-              }
+`,
+        },
+      },
+      required: ["httpql"],
+    },
+  },
+  {
+    name: "view_request_by_id",
+    description: "View a request by its ID",
+    input_schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "The ID of the request to view",
+        },
+      },
+      required: ["id"],
+    },
+  },
+  {
+    name: "view_response_by_id",
+    description: "View a response by its ID",
+    input_schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "The ID of the response to view",
+        },
+      },
+      required: ["id"],
+    },
+  },
+  {
+    name: "send_to_replay",
+    description: "Send requests to replay tab by their IDs",
+    input_schema: {
+      type: "object",
+      properties: {
+        request_ids: {
+          type: "array",
+          items: {
+            type: "string",
           },
-          "required": ["httpql"]
-      }
+          description: "Array of request IDs to send to replay",
+        },
+        collection_name: {
+          type: "string",
+          description:
+            "Optional name for the replay session collection (default: 'AI Generated')",
+        },
+        session_name: {
+          type: "string",
+          description:
+            "Optional name for the replay session (default: 'Request from AI')",
+        },
+      },
+      required: ["request_ids"],
+    },
   },
   {
-    "name": "view_request_by_id",
-    "description": "View a request by its ID",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "The ID of the request to view"
-        }
+    name: "list_replay_collections",
+    description: "List all available replay session collections",
+    input_schema: {
+      type: "object",
+      properties: {
+        include_sessions: {
+          type: "boolean",
+          description:
+            "Whether to include sessions within each collection (default: false)",
+        },
+        filter_name: {
+          type: "string",
+          description:
+            "Optional filter to search collections by name (case-insensitive)",
+        },
       },
-      "required": ["id"]
-    }
+      required: [],
+    },
   },
   {
-    "name": "view_response_by_id",
-    "description": "View a response by its ID",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "description": "The ID of the response to view"
-        }
+    name: "rename_replay_collection",
+    description: "Rename an existing replay session collection",
+    input_schema: {
+      type: "object",
+      properties: {
+        collection_id: {
+          type: "string",
+          description: "The ID of the collection to rename",
+        },
+        new_name: {
+          type: "string",
+          description: "The new name for the collection",
+        },
+        verify_existing: {
+          type: "boolean",
+          description:
+            "Whether to check if a collection with the new name already exists (default: true)",
+        },
       },
-      "required": ["id"]
-    }
+      required: ["collection_id", "new_name"],
+    },
   },
   {
-    "name": "send_to_replay",
-    "description": "Send requests to replay tab by their IDs",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "request_ids": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Array of request IDs to send to replay"
+    name: "rename_replay_session",
+    description: "Rename an existing replay session",
+    input_schema: {
+      type: "object",
+      properties: {
+        session_id: {
+          type: "string",
+          description: "The ID of the session to rename",
         },
-        "collection_name": {
-          "type": "string",
-          "description": "Optional name for the replay session collection (default: 'AI Generated')"
+        new_name: {
+          type: "string",
+          description: "The new name for the session",
         },
-        "session_name": {
-          "type": "string",
-          "description": "Optional name for the replay session (default: 'Request from AI')"
-        }
       },
-      "required": ["request_ids"]
-    }
-  },
-  {
-    "name": "list_replay_collections",
-    "description": "List all available replay session collections",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "include_sessions": {
-          "type": "boolean",
-          "description": "Whether to include sessions within each collection (default: false)"
-        },
-        "filter_name": {
-          "type": "string",
-          "description": "Optional filter to search collections by name (case-insensitive)"
-        }
-      },
-      "required": []
-    }
-  },
-  {
-    "name": "rename_replay_collection",
-    "description": "Rename an existing replay session collection",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "collection_id": {
-          "type": "string",
-          "description": "The ID of the collection to rename"
-        },
-        "new_name": {
-          "type": "string",
-          "description": "The new name for the collection"
-        },
-        "verify_existing": {
-          "type": "boolean",
-          "description": "Whether to check if a collection with the new name already exists (default: true)"
-        }
-      },
-      "required": ["collection_id", "new_name"]
-    }
-  },
-  {
-    "name": "rename_replay_session",
-    "description": "Rename an existing replay session",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "session_id": {
-          "type": "string",
-          "description": "The ID of the session to rename"
-        },
-        "new_name": {
-          "type": "string",
-          "description": "The new name for the session"
-        }
-      },
-      "required": ["session_id", "new_name"]
-    }
+      required: ["session_id", "new_name"],
+    },
   },
 
   {
-    "name": "graphql_collection_requests",
-    "description": "Execute GraphQL query to get requests (sessions) from a specific replay collection (uses saved auth token)",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "collection_id": {
-          "type": "string",
-          "description": "The ID of the collection to query"
+    name: "graphql_collection_requests",
+    description:
+      "Execute GraphQL query to get requests (sessions) from a specific replay collection (uses saved auth token)",
+    input_schema: {
+      type: "object",
+      properties: {
+        collection_id: {
+          type: "string",
+          description: "The ID of the collection to query",
         },
-        "graphql_query": {
-          "type": "string",
-          "description": "Custom GraphQL query to execute (optional, will use default if not provided)"
+        graphql_query: {
+          type: "string",
+          description:
+            "Custom GraphQL query to execute (optional, will use default if not provided)",
         },
-        "variables": {
-          "type": "object",
-          "description": "Variables to pass to the GraphQL query"
-        }
+        variables: {
+          type: "object",
+          description: "Variables to pass to the GraphQL query",
+        },
       },
-      "required": ["collection_id"]
-    }
+      required: ["collection_id"],
+    },
   },
   {
-    "name": "graphql_list_collections",
-    "description": "List all replay collections using GraphQL API",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "include_sessions": {
-          "type": "boolean",
-          "description": "Include session details in the response (default: false)"
+    name: "graphql_list_collections",
+    description: "List all replay collections using GraphQL API",
+    input_schema: {
+      type: "object",
+      properties: {
+        include_sessions: {
+          type: "boolean",
+          description:
+            "Include session details in the response (default: false)",
         },
-        "filter_name": {
-          "type": "string",
-          "description": "Filter collections by name (optional)"
-        }
-      }
-    }
-  },
-  {
-    "name": "list_replay_connections",
-    "description": "List replay connections (requests) in a specific collection by name or ID",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "collection_name": {
-          "type": "string",
-          "description": "Name of the collection to list connections in"
+        filter_name: {
+          type: "string",
+          description: "Filter collections by name (optional)",
         },
-        "collection_id": {
-          "type": "string",
-          "description": "ID of the collection to list connections in (alternative to collection_name)"
-        },
-        "limit": {
-          "type": "number",
-          "description": "Maximum number of connections to return (optional)"
-        }
       },
-      "required": []
-    }
+    },
   },
   {
-    "name": "create_findings_from_requests",
-    "description": "Create a new finding in Caido based on request data",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "title": {
-          "type": "string",
-          "description": "Title of the finding"
+    name: "list_replay_connections",
+    description:
+      "List replay connections (requests) in a specific collection by name or ID",
+    input_schema: {
+      type: "object",
+      properties: {
+        collection_name: {
+          type: "string",
+          description: "Name of the collection to list connections in",
         },
-        "description": {
-          "type": "string",
-          "description": "Detailed description of the finding"
+        collection_id: {
+          type: "string",
+          description:
+            "ID of the collection to list connections in (alternative to collection_name)",
         },
-        "reporter": {
-          "type": "string",
-          "description": "Name of the person or tool reporting the finding (default: 'Neplox AI Assistant')"
+        limit: {
+          type: "number",
+          description: "Maximum number of connections to return (optional)",
         },
-        "request_id": {
-          "type": "string",
-          "description": "ID of the request to associate with the finding"
+      },
+      required: [],
+    },
+  },
+  {
+    name: "create_findings_from_requests",
+    description: "Create a new finding in Caido based on request data",
+    input_schema: {
+      type: "object",
+      properties: {
+        title: {
+          type: "string",
+          description: "Title of the finding",
         },
-        "severity": {
-          "type": "string",
-          "enum": ["low", "medium", "high", "critical"],
-          "description": "Severity level of the finding (default: 'medium')"
+        description: {
+          type: "string",
+          description: "Detailed description of the finding",
         },
-        "tags": {
-          "type": "array",
-          "items": {
-            "type": "string"
+        reporter: {
+          type: "string",
+          description:
+            "Name of the person or tool reporting the finding (default: 'Neplox AI Assistant')",
+        },
+        request_id: {
+          type: "string",
+          description: "ID of the request to associate with the finding",
+        },
+        severity: {
+          type: "string",
+          enum: ["low", "medium", "high", "critical"],
+          description: "Severity level of the finding (default: 'medium')",
+        },
+        tags: {
+          type: "array",
+          items: {
+            type: "string",
           },
-          "description": "Optional tags to categorize the finding"
-        }
-      },
-      "required": ["title", "description", "request_id"]
-    }
-  },
-  {
-    "name": "create_replay_collection",
-    "description": "Create a new replay session collection using GraphQL API",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name for the new replay session collection"
-        }
-      },
-      "required": ["name"]
-    }
-  },
-  {
-    "name": "create_tamper_rule_collection",
-    "description": "Create a new tamper rule collection for Match/Replace functionality",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Name of the tamper rule collection"
-        }
-      },
-      "required": ["name"]
-    }
-  },
-  {
-    "name": "create_tamper_rule",
-    "description": "Create a new tamper rule for Match/Replace functionality",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "collection_id": {
-          "type": "string",
-          "description": "ID of the collection to add the rule to"
+          description: "Optional tags to categorize the finding",
         },
-        "name": {
-          "type": "string",
-          "description": "Name of the tamper rule"
+      },
+      required: ["title", "description", "request_id"],
+    },
+  },
+  {
+    name: "create_replay_collection",
+    description: "Create a new replay session collection using GraphQL API",
+    input_schema: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "Name for the new replay session collection",
         },
-        "section": {
-          "type": "object",
-          "description": "Section configuration for the rule (e.g., responseBody, requestHeader, etc.)",
-          "properties": {
-            "responseBody": {
-              "type": "object",
-              "properties": {
-                "operation": {
-                  "type": "object",
-                  "properties": {
-                    "raw": {
-                      "type": "object",
-                      "properties": {
-                        "matcher": {
-                          "type": "object",
-                          "properties": {
-                            "regex": {
-                              "type": "object",
-                              "properties": {
-                                "regex": {
-                                  "type": "string",
-                                  "description": "Regular expression pattern to match"
-                                }
-                              }
+      },
+      required: ["name"],
+    },
+  },
+  {
+    name: "create_tamper_rule_collection",
+    description:
+      "Create a new tamper rule collection for Match/Replace functionality",
+    input_schema: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "Name of the tamper rule collection",
+        },
+      },
+      required: ["name"],
+    },
+  },
+  {
+    name: "create_tamper_rule",
+    description: "Create a new tamper rule for Match/Replace functionality",
+    input_schema: {
+      type: "object",
+      properties: {
+        collection_id: {
+          type: "string",
+          description: "ID of the collection to add the rule to",
+        },
+        name: {
+          type: "string",
+          description: "Name of the tamper rule",
+        },
+        section: {
+          type: "object",
+          description:
+            "Section configuration for the rule (e.g., responseBody, requestHeader, etc.)",
+          properties: {
+            responseBody: {
+              type: "object",
+              properties: {
+                operation: {
+                  type: "object",
+                  properties: {
+                    raw: {
+                      type: "object",
+                      properties: {
+                        matcher: {
+                          type: "object",
+                          properties: {
+                            regex: {
+                              type: "object",
+                              properties: {
+                                regex: {
+                                  type: "string",
+                                  description:
+                                    "Regular expression pattern to match",
+                                },
+                              },
                             },
-                            "value": {
-                              "type": "object",
-                              "properties": {
-                                "value": {
-                                  "type": "string",
-                                  "description": "Exact value to match"
-                                }
-                              }
-                            }
-                          }
+                            value: {
+                              type: "object",
+                              properties: {
+                                value: {
+                                  type: "string",
+                                  description: "Exact value to match",
+                                },
+                              },
+                            },
+                          },
                         },
-                        "replacer": {
-                          "type": "object",
-                          "properties": {
-                            "term": {
-                              "type": "object",
-                              "properties": {
-                                "term": {
-                                  "type": "string",
-                                  "description": "Replacement term"
-                                }
-                              }
+                        replacer: {
+                          type: "object",
+                          properties: {
+                            term: {
+                              type: "object",
+                              properties: {
+                                term: {
+                                  type: "string",
+                                  description: "Replacement term",
+                                },
+                              },
                             },
-                            "workflow": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string",
-                                  "description": "Workflow ID for replacement"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+                            workflow: {
+                              type: "object",
+                              properties: {
+                                id: {
+                                  type: "string",
+                                  description: "Workflow ID for replacement",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
-            "requestHeader": {
-              "type": "object",
-              "properties": {
-                "operation": {
-                  "type": "object",
-                  "properties": {
-                    "update": {
-                      "type": "object",
-                      "properties": {
-                        "matcher": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string",
-                              "description": "Header name to match"
-                            }
-                          }
-                        },
-                        "replacer": {
-                          "type": "object",
-                          "properties": {
-                            "term": {
-                              "type": "object",
-                              "properties": {
-                                "term": {
-                                  "type": "string",
-                                  "description": "Replacement term"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        },
-        "condition": {
-          "type": "string",
-          "description": "Optional HTTPQL condition for when the rule should be applied"
-        }
-      },
-      "required": ["collection_id", "name", "section"]
-    }
-  },
-  {
-    "name": "update_tamper_rule",
-    "description": "Update an existing tamper rule for Match/Replace functionality",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "rule_id": {
-          "type": "string",
-          "description": "ID of the tamper rule to update"
-        },
-        "name": {
-          "type": "string",
-          "description": "New name for the tamper rule (optional)"
-        },
-        "section": {
-          "type": "object",
-          "description": "New section configuration for the rule (optional)",
-          "properties": {
-            "responseBody": {
-              "type": "object",
-              "properties": {
-                "operation": {
-                  "type": "object",
-                  "properties": {
-                    "raw": {
-                      "type": "object",
-                      "properties": {
-                        "matcher": {
-                          "type": "object",
-                          "properties": {
-                            "regex": {
-                              "type": "object",
-                              "properties": {
-                                "regex": {
-                                  "type": "string",
-                                  "description": "Regular expression pattern to match"
-                                }
-                              }
+            requestHeader: {
+              type: "object",
+              properties: {
+                operation: {
+                  type: "object",
+                  properties: {
+                    update: {
+                      type: "object",
+                      properties: {
+                        matcher: {
+                          type: "object",
+                          properties: {
+                            name: {
+                              type: "string",
+                              description: "Header name to match",
                             },
-                            "value": {
-                              "type": "object",
-                              "properties": {
-                                "value": {
-                                  "type": "string",
-                                  "description": "Exact value to match"
-                                }
-                              }
-                            }
-                          }
+                          },
                         },
-                        "replacer": {
-                          "type": "object",
-                          "properties": {
-                            "term": {
-                              "type": "object",
-                              "properties": {
-                                "term": {
-                                  "type": "string",
-                                  "description": "Replacement term"
-                                }
-                              }
+                        replacer: {
+                          type: "object",
+                          properties: {
+                            term: {
+                              type: "object",
+                              properties: {
+                                term: {
+                                  type: "string",
+                                  description: "Replacement term",
+                                },
+                              },
                             },
-                            "workflow": {
-                              "type": "object",
-                              "properties": {
-                                "id": {
-                                  "type": "string",
-                                  "description": "Workflow ID for replacement"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
-            "requestHeader": {
-              "type": "object",
-              "properties": {
-                "operation": {
-                  "type": "object",
-                  "properties": {
-                    "update": {
-                      "type": "object",
-                      "properties": {
-                        "matcher": {
-                          "type": "object",
-                          "properties": {
-                            "name": {
-                              "type": "string",
-                              "description": "Header name to match"
-                            }
-                          }
+          },
+        },
+        condition: {
+          type: "string",
+          description:
+            "Optional HTTPQL condition for when the rule should be applied",
+        },
+      },
+      required: ["collection_id", "name", "section"],
+    },
+  },
+  {
+    name: "update_tamper_rule",
+    description:
+      "Update an existing tamper rule for Match/Replace functionality",
+    input_schema: {
+      type: "object",
+      properties: {
+        rule_id: {
+          type: "string",
+          description: "ID of the tamper rule to update",
+        },
+        name: {
+          type: "string",
+          description: "New name for the tamper rule (optional)",
+        },
+        section: {
+          type: "object",
+          description: "New section configuration for the rule (optional)",
+          properties: {
+            responseBody: {
+              type: "object",
+              properties: {
+                operation: {
+                  type: "object",
+                  properties: {
+                    raw: {
+                      type: "object",
+                      properties: {
+                        matcher: {
+                          type: "object",
+                          properties: {
+                            regex: {
+                              type: "object",
+                              properties: {
+                                regex: {
+                                  type: "string",
+                                  description:
+                                    "Regular expression pattern to match",
+                                },
+                              },
+                            },
+                            value: {
+                              type: "object",
+                              properties: {
+                                value: {
+                                  type: "string",
+                                  description: "Exact value to match",
+                                },
+                              },
+                            },
+                          },
                         },
-                        "replacer": {
-                          "type": "object",
-                          "properties": {
-                            "term": {
-                              "type": "object",
-                              "properties": {
-                                "term": {
-                                  "type": "string",
-                                  "description": "Replacement term"
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        replacer: {
+                          type: "object",
+                          properties: {
+                            term: {
+                              type: "object",
+                              properties: {
+                                term: {
+                                  type: "string",
+                                  description: "Replacement term",
+                                },
+                              },
+                            },
+                            workflow: {
+                              type: "object",
+                              properties: {
+                                id: {
+                                  type: "string",
+                                  description: "Workflow ID for replacement",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+            requestHeader: {
+              type: "object",
+              properties: {
+                operation: {
+                  type: "object",
+                  properties: {
+                    update: {
+                      type: "object",
+                      properties: {
+                        matcher: {
+                          type: "object",
+                          properties: {
+                            name: {
+                              type: "string",
+                              description: "Header name to match",
+                            },
+                          },
+                        },
+                        replacer: {
+                          type: "object",
+                          properties: {
+                            term: {
+                              type: "object",
+                              properties: {
+                                term: {
+                                  type: "string",
+                                  description: "Replacement term",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
-        "condition": {
-          "type": "string",
-          "description": "Optional HTTPQL condition for when the rule should be applied"
-        }
+        condition: {
+          type: "string",
+          description:
+            "Optional HTTPQL condition for when the rule should be applied",
+        },
       },
-      "required": ["rule_id"]
-    }
+      required: ["rule_id"],
+    },
   },
   {
-    "name": "list_tamper_rule_collections",
-    "description": "List all tamper rule collections",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "collection_id": {
-          "type": "string",
-          "description": "Optional ID of specific collection to retrieve"
-        }
-      }
-    }
-  },
-  {
-    "name": "list_tamper_rules",
-    "description": "List tamper rules from a specific collection or all rules",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "collection_id": {
-          "type": "string",
-          "description": "Optional ID of collection to list rules from"
+    name: "list_tamper_rule_collections",
+    description: "List all tamper rule collections",
+    input_schema: {
+      type: "object",
+      properties: {
+        collection_id: {
+          type: "string",
+          description: "Optional ID of specific collection to retrieve",
         },
-        "rule_id": {
-          "type": "string",
-          "description": "Optional ID of specific rule to retrieve"
-        }
-      }
-    }
-  },
-  {
-    "name": "read_tamper_rule",
-    "description": "Read detailed information about a specific tamper rule",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "rule_id": {
-          "type": "string",
-          "description": "ID of the tamper rule to read"
-        }
       },
-      "required": ["rule_id"]
-    }
+    },
   },
   {
-    "name": "sendRequest",
-    "description": "Send an HTTP request using the Caido SDK",
-    "input_schema": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string",
-          "description": "The base URL for the request"
+    name: "list_tamper_rules",
+    description: "List tamper rules from a specific collection or all rules",
+    input_schema: {
+      type: "object",
+      properties: {
+        collection_id: {
+          type: "string",
+          description: "Optional ID of collection to list rules from",
         },
-        "raw_request": {
-          "type": "string",
-          "description": "Raw HTTP request string (if provided, other parameters are ignored. Prefer this over the other parameters.)"
+        rule_id: {
+          type: "string",
+          description: "Optional ID of specific rule to retrieve",
         },
-        "method": {
-          "type": "string",
-          "description": "HTTP method (GET, POST, PUT, DELETE, etc.)"
-        },
-        "headers": {
-          "type": "object",
-          "description": "HTTP headers as key-value pairs"
-        },
-        "body": {
-          "type": "string",
-          "description": "Request body content"
-        },
-        "query": {
-          "type": "string",
-          "description": "Query parameters"
-        },
-        "host": {
-          "type": "string",
-          "description": "Target host"
-        },
-        "port": {
-          "type": "number",
-          "description": "Target port number"
-        },
-        "tls": {
-          "type": "boolean",
-          "description": "Whether to use TLS/HTTPS"
-        },
-        "path": {
-          "type": "string",
-          "description": "Request path"
-        }
       },
-      "required": ["url"]
-    }
-  }
-]
+    },
+  },
+  {
+    name: "read_tamper_rule",
+    description: "Read detailed information about a specific tamper rule",
+    input_schema: {
+      type: "object",
+      properties: {
+        rule_id: {
+          type: "string",
+          description: "ID of the tamper rule to read",
+        },
+      },
+      required: ["rule_id"],
+    },
+  },
+  {
+    name: "sendRequest",
+    description: "Send an HTTP request using the Caido SDK",
+    input_schema: {
+      type: "object",
+      properties: {
+        url: {
+          type: "string",
+          description: "The base URL for the request",
+        },
+        raw_request: {
+          type: "string",
+          description:
+            "Raw HTTP request string (if provided, other parameters are ignored. Prefer this over the other parameters.)",
+        },
+        method: {
+          type: "string",
+          description: "HTTP method (GET, POST, PUT, DELETE, etc.)",
+        },
+        headers: {
+          type: "object",
+          description: "HTTP headers as key-value pairs",
+        },
+        body: {
+          type: "string",
+          description: "Request body content",
+        },
+        query: {
+          type: "string",
+          description: "Query parameters",
+        },
+        host: {
+          type: "string",
+          description: "Target host",
+        },
+        port: {
+          type: "number",
+          description: "Target port number",
+        },
+        tls: {
+          type: "boolean",
+          description: "Whether to use TLS/HTTPS",
+        },
+        path: {
+          type: "string",
+          description: "Request path",
+        },
+      },
+      required: ["url"],
+    },
+  },
+];

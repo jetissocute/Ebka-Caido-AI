@@ -1,5 +1,23 @@
+import { Blob, fetch, Headers, Request, Response } from "caido:http";
 import type { DefineAPI, SDK } from "caido:plugin";
-import { fetch, Headers, Request, Response, Blob } from 'caido:http';
+
+// Import functions from modules
+import { sendMessage } from "./chat";
+import {
+  getProgramResult,
+  initializeDatabase,
+  sendAuthToken,
+  setClaudeApiKey,
+} from "./database";
+import { getAvailableModels } from "./models";
+import {
+  createSession,
+  deleteSession,
+  getSessionMessages,
+  getSessions,
+  renameSession,
+} from "./sessions";
+import { getToolExecutionState } from "./tool-tracking";
 
 // @ts-ignore
 globalThis.fetch = fetch;
@@ -20,58 +38,67 @@ globalThis.FormData = class trash {
   }
 };
 
-// Import functions from modules
-import { initializeDatabase, setClaudeApiKey, getClaudeApiKey, getProgramResult, sendAuthToken } from './database';
-import { sendMessage } from './chat';
-import { getAvailableModels } from './models';
-import { 
-  createSession, 
-  getSessions, 
-  getSessionMessages, 
-  renameSession, 
-  deleteSession 
-} from './sessions';
-import { getToolExecutionState } from './tool-tracking';
-
 export type API = DefineAPI<{
-  setClaudeApiKey: (apiKey: string) => Promise<{ success: boolean; message?: string }>;
+  setClaudeApiKey: (
+    apiKey: string,
+  ) => Promise<{ success: boolean; message?: string }>;
   getClaudeApiKey: () => Promise<string | null>;
-  sendMessage: (message: string, selectedModel?: string, sessionId?: number) => Promise<string>;
-  getAvailableModels: () => Promise<{ id: string; name: string; }[]>;
-  createSession: (name: string) => Promise<{ success: boolean; sessionId?: number; message?: string }>;
-  getSessions: () => Promise<{ id: number; name: string; created_at: string; updated_at: string; }[]>;
-  getSessionMessages: (sessionId: number) => Promise<{ role: string; content: string; timestamp: string; }[]>;
-  renameSession: (sessionId: number, newName: string) => Promise<{ success: boolean; message?: string }>;
-  deleteSession: (sessionId: number) => Promise<{ success: boolean; message?: string }>;
-  getConversationHistory: (sessionId: number) => Promise<{ role: string; content: string; timestamp: string; }[]>;
+  sendMessage: (
+    message: string,
+    selectedModel?: string,
+    sessionId?: number,
+  ) => Promise<string>;
+  getAvailableModels: () => Promise<{ id: string; name: string }[]>;
+  createSession: (
+    name: string,
+  ) => Promise<{ success: boolean; sessionId?: number; message?: string }>;
+  getSessions: () => Promise<
+    { id: number; name: string; created_at: string; updated_at: string }[]
+  >;
+  getSessionMessages: (
+    sessionId: number,
+  ) => Promise<{ role: string; content: string; timestamp: string }[]>;
+  renameSession: (
+    sessionId: number,
+    newName: string,
+  ) => Promise<{ success: boolean; message?: string }>;
+  deleteSession: (
+    sessionId: number,
+  ) => Promise<{ success: boolean; message?: string }>;
+  getConversationHistory: (
+    sessionId: number,
+  ) => Promise<{ role: string; content: string; timestamp: string }[]>;
   getProgramResult: (resultId: number) => Promise<any>;
   getToolExecutionState: (sessionId: number) => any;
-  sendAuthToken: (accessToken: string, apiEndpoint?: string) => Promise<{ success: boolean; message?: string }>;
+  sendAuthToken: (
+    accessToken: string,
+    apiEndpoint?: string,
+  ) => Promise<{ success: boolean; message?: string }>;
 }>;
 
 export type Events = {
-  'request-auth-token': { source: string; timestamp: number; message: string };
-  'auth-token-saved': { success: boolean; timestamp: number; message: string };
+  "request-auth-token": { source: string; timestamp: number; message: string };
+  "auth-token-saved": { success: boolean; timestamp: number; message: string };
 };
 
 export function init(sdk: SDK<API, Events>) {
   // Initialize database when plugin starts
   initializeDatabase(sdk);
-  
+
   // Trigger request-auth-token event to get auth token from frontend
   setTimeout(() => {
     try {
-      sdk.console.log('🔐 Triggering request-auth-token event...');
-      sdk.api.send('request-auth-token', { 
-        source: 'backend', 
+      sdk.console.log("🔐 Triggering request-auth-token event...");
+      sdk.api.send("request-auth-token", {
+        source: "backend",
         timestamp: Date.now(),
-        message: 'Requesting auth token from frontend'
+        message: "Requesting auth token from frontend",
       });
     } catch (error) {
-      sdk.console.error('❌ Error triggering request-auth-token event:', error);
+      sdk.console.error("❌ Error triggering request-auth-token event:", error);
     }
   }, 1000); // Delay 1 second to ensure frontend is ready
-  
+
   sdk.api.register("setClaudeApiKey", setClaudeApiKey);
   sdk.api.register("sendMessage", sendMessage);
   sdk.api.register("getAvailableModels", getAvailableModels);
@@ -81,6 +108,12 @@ export function init(sdk: SDK<API, Events>) {
   sdk.api.register("renameSession", renameSession);
   sdk.api.register("deleteSession", deleteSession);
   sdk.api.register("getProgramResult", getProgramResult);
-  sdk.api.register("getToolExecutionState", (sdk: any, sessionId: number) => getToolExecutionState(sessionId));
-  sdk.api.register("sendAuthToken", (sdk: any, accessToken: string, apiEndpoint?: string) => sendAuthToken(sdk, accessToken, apiEndpoint));
+  sdk.api.register("getToolExecutionState", (sdk: any, sessionId: number) =>
+    getToolExecutionState(sessionId),
+  );
+  sdk.api.register(
+    "sendAuthToken",
+    (sdk: any, accessToken: string, apiEndpoint?: string) =>
+      sendAuthToken(sdk, accessToken, apiEndpoint),
+  );
 }

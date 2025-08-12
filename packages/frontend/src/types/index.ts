@@ -1,6 +1,6 @@
 export interface ChatMessage {
   id: number;
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   timestamp: Date;
 }
@@ -29,19 +29,41 @@ export interface FrontendSDK {
 }
 
 export interface BackendSDK {
-  setClaudeApiKey: (apiKey: string) => Promise<{ success: boolean; message?: string }>;
+  setClaudeApiKey: (
+    apiKey: string,
+  ) => Promise<{ success: boolean; message?: string }>;
   getClaudeApiKey: () => Promise<string | null>;
-  sendMessage: (message: string, selectedModel?: string, sessionId?: number) => Promise<string>;
-  getAvailableModels: () => Promise<{ id: string; name: string; }[]>;
-  createSession: (name: string) => Promise<{ success: boolean; sessionId?: number; message?: string }>;
-  getSessions: () => Promise<{ id: number; name: string; created_at: string; updated_at: string; }[]>;
-  getSessionMessages: (sessionId: number) => Promise<{ role: string; content: string; timestamp: string; }[]>;
-  renameSession: (sessionId: number, newName: string) => Promise<{ success: boolean; message?: string }>;
-  deleteSession: (sessionId: number) => Promise<{ success: boolean; message?: string }>;
-  getConversationHistory: (sessionId: number) => Promise<{ role: string; content: string; timestamp: string; }[]>;
+  sendMessage: (
+    message: string,
+    selectedModel?: string,
+    sessionId?: number,
+  ) => Promise<string>;
+  getAvailableModels: () => Promise<{ id: string; name: string }[]>;
+  createSession: (
+    name: string,
+  ) => Promise<{ success: boolean; sessionId?: number; message?: string }>;
+  getSessions: () => Promise<
+    { id: number; name: string; created_at: string; updated_at: string }[]
+  >;
+  getSessionMessages: (
+    sessionId: number,
+  ) => Promise<{ role: string; content: string; timestamp: string }[]>;
+  renameSession: (
+    sessionId: number,
+    newName: string,
+  ) => Promise<{ success: boolean; message?: string }>;
+  deleteSession: (
+    sessionId: number,
+  ) => Promise<{ success: boolean; message?: string }>;
+  getConversationHistory: (
+    sessionId: number,
+  ) => Promise<{ role: string; content: string; timestamp: string }[]>;
   getProgramResult: (resultId: number) => Promise<any>;
   getToolExecutionState: (sessionId: number) => any;
-  sendAuthToken: (accessToken: string, apiEndpoint?: string) => Promise<{ success: boolean; message?: string }>;
+  sendAuthToken: (
+    accessToken: string,
+    apiEndpoint?: string,
+  ) => Promise<{ success: boolean; message?: string }>;
 }
 
 export interface ReplaySDK {
@@ -76,7 +98,10 @@ export interface ReplaySDK {
   setTabOrder: (tab: any, order: number) => void;
   setTabPosition: (tab: any, position: { x: number; y: number }) => void;
   setTabSize: (tab: any, size: { width: number; height: number }) => void;
-  setTabBounds: (tab: any, bounds: { x: number; y: number; width: number; height: number }) => void;
+  setTabBounds: (
+    tab: any,
+    bounds: { x: number; y: number; width: number; height: number },
+  ) => void;
   setTabZIndex: (tab: any, zIndex: number) => void;
   setTabOpacity: (tab: any, opacity: number) => void;
   setTabVisible: (tab: any, visible: boolean) => void;

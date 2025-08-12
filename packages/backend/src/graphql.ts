@@ -81,7 +81,7 @@ export const executeGraphQLQuery = async <T = any>(
   response?: GraphQLResponse<T>;
 }> => {
   try {
-    const { query, variables = {}, operationName, apiEndpoint } = options;
+    let { query, variables = {}, operationName, apiEndpoint } = options;
 
     // Get the auth token
     const authToken = await getCaidoAuthToken(sdk);

@@ -31,6 +31,7 @@ sdk.backend.onEvent("request-auth-token", async (data: any) => {
         const apiEndpoint = `${window.location.origin}/graphql`;
         // @ts-ignore
         const result = await sdk.backend.sendAuthToken(
+          // @ts-ignore
           parsedAuth.accessToken,
           apiEndpoint,
         );
@@ -388,6 +389,7 @@ const saveSessionName = async () => {
   try {
     // @ts-ignore
     const result = await sdk.backend.renameSession(
+      // @ts-ignore
       editingSession.value.id,
       editingSessionName.value.trim(),
     );
@@ -546,6 +548,7 @@ const sendMessage = async () => {
     try {
       // @ts-ignore
       const state = await sdk.backend.getToolExecutionState(
+        // @ts-ignore
         currentSession.value.id,
       );
 
@@ -631,6 +634,7 @@ const sendMessage = async () => {
     const modelId = selectedModel.value?.id;
     // @ts-ignore
     const response = await sdk.backend.sendMessage(
+      // @ts-ignore
       userMessage,
       modelId,
       currentSession.value.id,
@@ -744,6 +748,7 @@ const checkToolExecutionState = async () => {
   try {
     // @ts-ignore
     const state = await sdk.backend.getToolExecutionState(
+      // @ts-ignore
       currentSession.value.id,
     );
 

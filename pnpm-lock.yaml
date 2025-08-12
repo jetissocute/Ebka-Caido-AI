@@ -38,12 +38,18 @@ importers:
       '@anthropic-ai/sdk':
         specifier: ^0.59.0
         version: 0.59.0
+      '@caido/quickjs-types':
+        specifier: ^0.19.3
+        version: 0.19.3
       '@modelcontextprotocol/sdk':
         specifier: ^1.17.2
         version: 1.17.2
       '@types/node-fetch':
         specifier: ^2.6.13
         version: 2.6.13
+      form-data:
+        specifier: ^4.0.4
+        version: 4.0.4
       node-fetch:
         specifier: ^3.3.2
         version: 3.3.2
@@ -132,6 +138,9 @@ packages:
 
   '@caido/quickjs-types@0.17.2':
     resolution: {integrity: sha512-5kcucGORMNEbcdU91yKLYZG/TFDqsO6XmCZ1TnU6V48E61mmqrJg6kjrfOFP1WOugDm+ZcGd/Su3p3XkFXfaPg==}
+
+  '@caido/quickjs-types@0.19.3':
+    resolution: {integrity: sha512-ReIj7GylOPGPGlYHODVWHxbctCv22kbYcmZzv6b5PQe2w8AMsIdaVRYST24KoZ0xaSGwxMrFi8Wvo/N6VSTnuw==}
 
   '@caido/sdk-backend@0.46.0':
     resolution: {integrity: sha512-peUKW/4Nrw9WVxIahc+6KrVtxA7vsbpuJqOoBxudxq7tQJ+cV9IEqzvYoFFo8KlnrTkeUQUJvd0W4WsM3HgxEg==}
@@ -2582,6 +2591,8 @@ snapshots:
   '@caido/primevue@0.1.2': {}
 
   '@caido/quickjs-types@0.17.2': {}
+
+  '@caido/quickjs-types@0.19.3': {}
 
   '@caido/sdk-backend@0.46.0':
     dependencies:

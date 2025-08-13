@@ -279,7 +279,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         success: true,
         message: "Auth token and API endpoint saved successfully",
         pluginId: pluginId,
-        pluginName: "(Ne)plox - Caido AI Assistant"
+        pluginName: "Ebka AI Assistant"
       };
       
       logToFile(`Connection configured successfully. Plugin ID: ${pluginId}`);

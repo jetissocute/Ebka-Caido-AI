@@ -30,7 +30,7 @@ export const init = (sdk: FrontendSDK) => {
   // Set the ID of the root element
   // Replace this with the value of the prefixWrap plugin in caido.config.ts
   // This is necessary to prevent styling conflicts between plugins
-  root.id = `plugin--frontend-vue`;
+  root.id = `plugin--ebka-ai-assistant`;
 
   // Mount the app to the root element
   app.mount(root);
@@ -42,5 +42,5 @@ export const init = (sdk: FrontendSDK) => {
   });
 
   // Add a sidebar item
-  sdk.sidebar.registerItem("(Ne)plox AI", "/mcp");
+  sdk.sidebar.registerItem("Ebka AI", "/mcp");
 };

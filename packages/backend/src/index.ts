@@ -9,6 +9,7 @@ import {
   sendAuthToken,
   setClaudeApiKey,
 } from "./database";
+import { handlers } from "./handlers";
 import { getAvailableModels } from "./models";
 import {
   createSession,
@@ -74,6 +75,7 @@ export type API = DefineAPI<{
     accessToken: string,
     apiEndpoint?: string,
   ) => Promise<{ success: boolean; message?: string }>;
+  claudeDesktop: (toolName: string, args: string) => any;
 }>;
 
 export type Events = {
@@ -116,4 +118,18 @@ export function init(sdk: SDK<API, Events>) {
     (sdk: any, accessToken: string, apiEndpoint?: string) =>
       sendAuthToken(sdk, accessToken, apiEndpoint),
   );
+  sdk.api.register("claudeDesktop", desktopIntegration);
+}
+
+async function desktopIntegration(
+  sdk: SDK<API, Events>,
+  toolName: string,
+  input: string,
+) {
+  const handler = handlers[toolName as keyof typeof handlers];
+  if (!handler) {
+    return `Handler for tool ${toolName} not found`;
+  }
+
+  return await handler(sdk, JSON.parse(input));
 }

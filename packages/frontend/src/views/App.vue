@@ -816,6 +816,34 @@ onMounted(async () => {
     await loadSessions();
   }
 });
+
+// Function to copy sendAuthToken request to clipboard
+const copySendAuthTokenRequest = async () => {
+  try {
+    const authData = localStorage.getItem("CAIDO_AUTHENTICATION");
+    if (!authData) {
+      alert("No API key configured. Please set your API key first.");
+      return;
+    }
+
+    const parsedAuth = JSON.parse(authData);
+    if (!parsedAuth.accessToken) {
+      alert("No access token found. Please set your API key first.");
+      return;
+    }
+
+    const requestText = `sendAuthToken request:
+token: ${parsedAuth.accessToken}
+host: ${window.location.origin}
+`;
+
+    await navigator.clipboard.writeText(requestText);
+    alert("sendAuthToken request copied to clipboard!");
+  } catch (error) {
+    console.error("Error copying sendAuthToken request:", error);
+    alert("Failed to copy sendAuthToken request.");
+  }
+};
 </script>
 
 <template>
@@ -842,6 +870,18 @@ onMounted(async () => {
             Change Key
           </button>
         </div>
+      </div>
+
+      <!-- Claude Desktop MCP Button -->
+      <div class="claude-desktop-section">
+        <button
+          type="button"
+          class="claude-desktop-btn"
+          title="Copy sendAuthToken request for Claude Desktop"
+          @click="copySendAuthTokenRequest"
+        >
+          Copy MCP Request
+        </button>
       </div>
 
       <!-- Model Selector -->
@@ -1224,6 +1264,36 @@ onMounted(async () => {
   color: #a0213e;
   font-weight: 600;
   font-size: 14px;
+}
+
+/* Claude Desktop MCP Button */
+.claude-desktop-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.claude-desktop-btn {
+  padding: 8px 16px;
+  background: #a0213e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.claude-desktop-btn:disabled {
+  background: #a0213e;
+  cursor: not-allowed;
+}
+
+.claude-desktop-btn .copy-icon {
+  font-size: 16px;
 }
 
 /* Model Selector */

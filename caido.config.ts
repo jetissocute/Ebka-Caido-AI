@@ -12,7 +12,7 @@ export default defineConfig({
   id,
   name: "(Ne)plox - Caido AI Assistant",
   description: "Integrates with Claude AI to provide AI-powered security testing capabilities",
-  version: "0.0.1",
+  version: "0.0.2",
   author: {
     name: "Slonser",
     email: "slonser@neplox.security",

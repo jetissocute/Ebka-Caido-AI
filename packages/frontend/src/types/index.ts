@@ -64,6 +64,7 @@ export interface BackendSDK {
     accessToken: string,
     apiEndpoint?: string,
   ) => Promise<{ success: boolean; message?: string }>;
+  claudeDesktop: (toolName: string, args: any) => any;
 }
 
 export interface ReplaySDK {

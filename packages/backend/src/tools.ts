@@ -704,15 +704,13 @@ Example:
   },
   {
     name: "list_findings",
-    description:
-      "List security findings from Caido with pagination and filtering support",
+    description: "List security findings from Caido with pagination and filtering support",
     input_schema: {
       type: "object",
       properties: {
         limit: {
           type: "number",
-          description:
-            "Maximum number of findings to retrieve (default: 50, max: 200)",
+          description: "Maximum number of findings to retrieve (default: 50, max: 200)",
         },
         offset: {
           type: "number",
@@ -720,8 +718,7 @@ Example:
         },
         filter: {
           type: "object",
-          description:
-            "Optional filter criteria for findings (empty object for no filtering)",
+          description: "Optional filter criteria for findings (empty object for no filtering)",
         },
         order: {
           type: "object",
@@ -729,8 +726,7 @@ Example:
           properties: {
             by: {
               type: "string",
-              description:
-                "Field to sort by (e.g., 'ID', 'CREATED_AT', 'TITLE')",
+              description: "Field to sort by (e.g., 'ID', 'CREATED_AT', 'TITLE')",
             },
             ordering: {
               type: "string",
@@ -743,8 +739,7 @@ Example:
   },
   {
     name: "get_finding_by_id",
-    description:
-      "Get detailed information about a specific security finding by its ID",
+    description: "Get detailed information about a specific security finding by its ID",
     input_schema: {
       type: "object",
       properties: {
@@ -758,8 +753,7 @@ Example:
   },
   {
     name: "update_finding",
-    description:
-      "Update an existing security finding with new title, description, or other fields",
+    description: "Update an existing security finding with new title, description, or other fields",
     input_schema: {
       type: "object",
       properties: {
@@ -815,7 +809,7 @@ Example:
     },
   },
   {
-    name: "caido_move_replay_session",
+    name: "move_replay_session",
     description: "Move a replay session to a different collection",
     input_schema: {
       type: "object",
@@ -834,8 +828,7 @@ Example:
   },
   {
     name: "start_replay_task",
-    description:
-      "Start a replay task to execute a request in a specific session",
+    description: "Start a replay task to execute a request in a specific session",
     input_schema: {
       type: "object",
       properties: {
@@ -845,8 +838,7 @@ Example:
         },
         raw_request: {
           type: "string",
-          description:
-            "The raw HTTP request to replay (will be automatically encoded to base64)",
+          description: "The raw HTTP request to replay (will be automatically encoded to base64)",
         },
         connection: {
           type: "object",
@@ -880,8 +872,7 @@ Example:
             },
             updateContentLength: {
               type: "boolean",
-              description:
-                "Whether to automatically update Content-Length header",
+              description: "Whether to automatically update Content-Length header",
             },
           },
         },
@@ -926,15 +917,13 @@ Example:
   },
   {
     name: "get_websocket_message_count",
-    description:
-      "Get the total count of messages in a specific WebSocket stream",
+    description: "Get the total count of messages in a specific WebSocket stream",
     input_schema: {
       type: "object",
       properties: {
         stream_id: {
           type: "string",
-          description:
-            "The unique ID of the WebSocket stream to get message count for",
+          description: "The unique ID of the WebSocket stream to get message count for",
         },
       },
       required: ["stream_id"],
@@ -942,14 +931,83 @@ Example:
   },
   {
     name: "get_websocket_message",
-    description:
-      "Get detailed information about a specific WebSocket message by its ID",
+    description: "Get detailed information about a specific WebSocket message by its ID",
     input_schema: {
       type: "object",
       properties: {
         id: {
           type: "string",
           description: "The unique ID of the WebSocket message to retrieve",
+        },
+      },
+      required: ["id"],
+    },
+  },
+  {
+    name: "list_filter_presets",
+    description: "List all available filter presets in Caido",
+    input_schema: {
+      type: "object",
+      properties: {},
+    },
+  },
+  {
+    name: "create_filter_preset",
+    description: "Create a new filter preset with custom HTTPQL clause",
+    input_schema: {
+      type: "object",
+      properties: {
+        alias: {
+          type: "string",
+          description: "Unique alias for the filter preset",
+        },
+        name: {
+          type: "string",
+          description: "Display name for the filter preset",
+        },
+        clause: {
+          type: "string",
+          description: "HTTPQL clause for filtering requests (optional)",
+        },
+      },
+      required: ["alias", "name"],
+    },
+  },
+  {
+    name: "update_filter_preset",
+    description: "Update an existing filter preset with new values",
+    input_schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "The ID of the filter preset to update",
+        },
+        alias: {
+          type: "string",
+          description: "New alias for the filter preset (optional)",
+        },
+        name: {
+          type: "string",
+          description: "New display name for the filter preset (optional)",
+        },
+        clause: {
+          type: "string",
+          description: "New HTTPQL clause for filtering requests (optional)",
+        },
+      },
+      required: ["id", "name", "clause", "alias"],
+    },
+  },
+  {
+    name: "delete_filter_preset",
+    description: "Delete a filter preset by its ID",
+    input_schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "The ID of the filter preset to delete",
         },
       },
       required: ["id"],

@@ -12,7 +12,7 @@ export default defineConfig({
   id,
   name: "Ebka AI Assistant",
   description: "Integrates with Claude AI to provide AI-powered security testing capabilities",
-  version: "0.0.5",
+  version: "0.0.6",
   author: {
     name: "Slonser",
     email: "slonser@neplox.security",

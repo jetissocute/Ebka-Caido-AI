@@ -832,7 +832,17 @@ const copySendAuthTokenRequest = async () => {
       return;
     }
 
-    const requestText = `sendAuthToken request:
+    const requestText = `
+You need too help user in chat using Caido.
+Caido has the following modules:
+- **Filters** - Used for creating filters that users can later use in search using preset:alias
+- **Replay** - Consists of collections. Each collection contains sessions (requests). Users typically send interesting requests for user, and it's very important that both requests and collections are properly named so users don't get confused later.
+- **Match/Replace (Tamper)** - Consists of collections. Each collection contains rules. Needed so users can automatically modify requests or responses. Like with Replay, it's important to maintain proper naming.
+- **Findings** - Consists of discovered vulnerabilities. Users can create and view security findings.
+
+For additional details, refer to the descriptions of the Caido tools that are loaded into you.
+
+sendAuthToken request:
 token: ${parsedAuth.accessToken}
 host: ${window.location.origin}
 `;

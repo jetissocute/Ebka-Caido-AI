@@ -858,7 +858,7 @@ export const create_findings_from_requests = async (sdk: SDK, input: any) => {
   try {
     const title = input.title;
     const description = input.description;
-    const reporter = input.reporter || "Neplox AI Assistant";
+    const reporter = input.reporter || "Ebka AI Assistant";
     const requestId = input.request_id;
     const severity = input.severity || "medium";
     const tags = input.tags || [];

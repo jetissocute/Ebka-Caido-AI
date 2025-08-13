@@ -7,10 +7,10 @@ import tailwindCaido from "@caido/tailwindcss";
 import path from "path";
 import prefixwrap from "postcss-prefixwrap";
 
-const id = "frontend-vue";
+const id = "ebka-ai-assistant";
 export default defineConfig({
   id,
-  name: "(Ne)plox - Caido AI Assistant",
+  name: "Ebka AI Assistant",
   description: "Integrates with Claude AI to provide AI-powered security testing capabilities",
   version: "0.0.2",
   author: {

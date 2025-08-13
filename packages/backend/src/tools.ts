@@ -296,7 +296,7 @@ Example:
         reporter: {
           type: "string",
           description:
-            "Name of the person or tool reporting the finding (default: 'Neplox AI Assistant')",
+            "Name of the person or tool reporting the finding (default: 'Ebka AI Assistant')",
         },
         request_id: {
           type: "string",

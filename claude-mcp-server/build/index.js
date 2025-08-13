@@ -142,9 +142,8 @@ async function findCaidoPlugin() {
     logToFile("Searching for Caido AI Assistant plugin");
     const pluginPackages = await getPluginInfo();
     if (pluginPackages && pluginPackages.length > 0) {
-        const caidoPackage = pluginPackages.find((pkg) => pkg.name === "(Ne)plox - Caido AI Assistant" ||
-            pkg.name?.includes("Neplox") ||
-            pkg.name?.includes("Caido AI"));
+        const caidoPackage = pluginPackages.find((pkg) => pkg.name === "Ebka AI Assistant" ||
+            pkg.name?.includes("Ebka"));
         if (caidoPackage) {
             logToFile(`Found Caido package: ${caidoPackage.name} (ID: ${caidoPackage.id})`);
             // Find the backend plugin

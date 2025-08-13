@@ -152,9 +152,8 @@ async function findCaidoPlugin(): Promise<string> {
   const pluginPackages = await getPluginInfo();
   if (pluginPackages && pluginPackages.length > 0) {
     const caidoPackage = pluginPackages.find((pkg: any) => 
-      pkg.name === "(Ne)plox - Caido AI Assistant" || 
-      pkg.name?.includes("Neplox") || 
-      pkg.name?.includes("Caido AI")
+      pkg.name === "Ebka AI Assistant" || 
+      pkg.name?.includes("Ebka")
     );
     
     if (caidoPackage) {

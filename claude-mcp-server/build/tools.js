@@ -682,4 +682,128 @@ Example:
             required: ["url"],
         },
     },
+    {
+        name: "list_findings",
+        description: "List security findings from Caido with pagination and filtering support",
+        input_schema: {
+            type: "object",
+            properties: {
+                limit: {
+                    type: "number",
+                    description: "Maximum number of findings to retrieve (default: 50, max: 200)",
+                },
+                offset: {
+                    type: "number",
+                    description: "Number of findings to skip for pagination (default: 0)",
+                },
+                filter: {
+                    type: "object",
+                    description: "Optional filter criteria for findings (empty object for no filtering)",
+                },
+                order: {
+                    type: "object",
+                    description: "Sorting order for findings (default: by ID descending)",
+                    properties: {
+                        by: {
+                            type: "string",
+                            description: "Field to sort by (e.g., 'ID', 'CREATED_AT', 'TITLE')",
+                        },
+                        ordering: {
+                            type: "string",
+                            description: "Sort order ('ASC' or 'DESC')",
+                        },
+                    },
+                },
+            },
+        },
+    },
+    {
+        name: "get_finding_by_id",
+        description: "Get detailed information about a specific security finding by its ID",
+        input_schema: {
+            type: "object",
+            properties: {
+                id: {
+                    type: "string",
+                    description: "The unique ID of the finding to retrieve",
+                },
+            },
+            required: ["id"],
+        },
+    },
+    {
+        name: "update_finding",
+        description: "Update an existing security finding with new title, description, or other fields",
+        input_schema: {
+            type: "object",
+            properties: {
+                id: {
+                    type: "string",
+                    description: "The unique ID of the finding to update",
+                },
+                input: {
+                    type: "object",
+                    description: "The data to update the finding with",
+                    properties: {
+                        title: {
+                            type: "string",
+                            description: "New title for the finding",
+                        },
+                        description: {
+                            type: "string",
+                            description: "New description for the finding",
+                        },
+                        reporter: {
+                            type: "string",
+                            description: "New reporter name for the finding",
+                        },
+                        host: {
+                            type: "string",
+                            description: "New host for the finding",
+                        },
+                        path: {
+                            type: "string",
+                            description: "New path for the finding",
+                        },
+                    },
+                },
+            },
+            required: ["id", "input"],
+        },
+    },
+    {
+        name: "delete_findings",
+        description: "Delete one or more security findings by their IDs",
+        input_schema: {
+            type: "object",
+            properties: {
+                ids: {
+                    type: "array",
+                    items: {
+                        type: "string",
+                    },
+                    description: "Array of finding IDs to delete",
+                },
+            },
+            required: ["ids"],
+        },
+    },
+    {
+        name: "caido_move_replay_session",
+        description: "Move a replay session to a different collection",
+        input_schema: {
+            type: "object",
+            properties: {
+                id: {
+                    type: "string",
+                    description: "The ID of the replay session to move",
+                },
+                collection_id: {
+                    type: "string",
+                    description: "The ID of the target collection to move the session to",
+                },
+            },
+            required: ["id", "collection_id"],
+        },
+    },
 ];

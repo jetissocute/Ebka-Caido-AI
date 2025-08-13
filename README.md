@@ -35,6 +35,7 @@ _A powerful AI-powered assistant for Caido web application security testing, bui
   - [Installation](#installation)
     - [Prerequisites](#prerequisites-1)
     - [Install from source:](#install-from-source)
+    - [For Claude Desktop Users](#for-claude-desktop-users)
   - [Usage](#usage)
   - [Contributing](#contributing)
   - [License](#license)
@@ -88,8 +89,27 @@ There are two ways to interact with the Caido AI Assistant:
 
 ### Method 1 - Claude Desktop (Extension Required)
 
-1. **Download the extension** for Claude Desktop
-2. **Add to claude_desktop_config**:
+**Prerequisites:**
+- [Node.js](https://nodejs.org/) (version 16 or higher)
+- npm or pnpm package manager
+
+**Setup Steps:**
+1. **Install dependencies:**
+   ```bash
+   cd claude-mcp-server
+   npm install
+   # or if using pnpm:
+   # pnpm install
+   ```
+
+2. **Build the MCP server:**
+   ```bash
+   npm run build
+   # or if using pnpm:
+   # pnpm build
+   ```
+
+3. **Add to claude_desktop_config**:
    ```json
    {
      "mcpServers": {
@@ -100,9 +120,11 @@ There are two ways to interact with the Caido AI Assistant:
      }
    }
    ```
-3. **Click "Copy MCP Request"** in the Caido plugin tab
-4. **Paste the request** in Claude to set the accessKey and API URL
-5. **Congratulations!** You can now communicate with Caido through Claude
+   **Note:** Replace `/path/to/` with the actual path to your project directory
+
+4. **Click "Copy MCP Request"** in the Caido plugin tab
+5. **Paste the request** in Claude to set the accessKey and API URL
+6. **Congratulations!** You can now communicate with Caido through Claude
 
 ![Claude Desktop Integration](./static/claude-init.png)
 *Claude Desktop Integration*
@@ -121,8 +143,9 @@ There are two ways to interact with the Caido AI Assistant:
 
 ### Prerequisites
 
-- Caido (latest version)
-- Node.js and pnpm (for development)
+- [Caido](https://caido.io/) (latest version)
+- [Node.js](https://nodejs.org/) (version 16 or higher)
+- npm or pnpm package manager
 
 ### Install from source:
 
@@ -135,11 +158,15 @@ There are two ways to interact with the Caido AI Assistant:
 2. **Install dependencies:**
    ```bash
    pnpm install
+   # or if using npm:
+   # npm install
    ```
 
 3. **Build the project:**
    ```bash
    pnpm build
+   # or if using npm:
+   # npm run build
    ```
 
 4. **Install in Caido:**
@@ -147,6 +174,18 @@ There are two ways to interact with the Caido AI Assistant:
    - Go to Settings > Plugins
    - Click "Install from file"
    - Select the built plugin file from the appropriate directory
+
+### For Claude Desktop Users
+
+If you're using Claude Desktop, you'll also need to build the MCP server:
+
+```bash
+cd claude-mcp-server
+npm install
+npm run build
+```
+
+Then update your `claude_desktop_config` with the correct path to the built server.
 
 ---
 

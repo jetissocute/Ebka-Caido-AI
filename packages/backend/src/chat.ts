@@ -82,7 +82,7 @@ const processClaudeResponse = async (
           `Using tool: ${toolUse.name}`,
         );
         // @ts-ignore
-        const handler = handlers[toolUse.name];
+        const handler = handlers[toolUse.name.replace("caido_", "")];
         if (!handler) {
           throw new Error("Handler not found for tool: " + toolUse.name);
         }

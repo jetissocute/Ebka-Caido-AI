@@ -23,6 +23,11 @@ _A powerful AI-powered assistant for Caido web application security testing, bui
 - [Ebka AI](#ebka-ai)
   - [Overview](#overview)
   - [Features](#features)
+    - [**Request Analysis \& Search**](#request-analysis--search)
+    - [**Replay Session Management**](#replay-session-management)
+    - [**Security Findings Management**](#security-findings-management)
+    - [**Match/Replace Rules**](#matchreplace-rules)
+    - [**AI-Powered Intelligence**](#ai-powered-intelligence)
   - [Prerequisites](#prerequisites)
   - [Getting Started](#getting-started)
     - [Method 1 - Claude Desktop (Extension Required)](#method-1---claude-desktop-extension-required)
@@ -41,14 +46,33 @@ Ebka AI is an AI-powered assistant that integrates seamlessly with Caido, provid
 ---
 
 ## Features
-More 19+ Claude tools:
 
-- **HTTPQL Query Search**: Search through requests using HTTPQL syntax for efficient filtering and analysis
-- **Match/Replace Operations**: Edit Math/Replace rules with sophisticated find and replace operations
-- **Replay Sessions & Collections**: Execute and manage replay sessions and replay collections for automated testing
-- **Request Sending**: Send custom HTTP requests with full control over headers, body, and parameters
-- **Create Findings**: Create Findings based on security analysis
-- **AI-Powered Analysis**: Leverage Claude AI for intelligent security testing insights and automation
+Ebka AI provides **25+ powerful Claude tools** for Caido:
+
+### **Request Analysis & Search**
+- **HTTPQL Query Search**: Advanced filtering and analysis using HTTPQL syntax
+- **Request/Response Viewing**: Inspect individual requests and responses by ID
+- **Custom Request Sending**: Send HTTP requests with full control over headers, body, and parameters
+
+### **Replay Session Management**
+- **Replay Collections**: Create, list, and manage replay session collections
+- **Session Operations**: Rename sessions, move between collections, and execute automated testing
+- **Connection Management**: Monitor and analyze replay connections and requests
+
+### **Security Findings Management**
+- **Findings CRUD**: Create, read, update, and delete security findings
+- **Advanced Filtering**: List findings with pagination, filtering, and sorting
+- **Comprehensive Data**: Access detailed finding information including request/response bodies
+
+### **Match/Replace Rules**
+- **Tamper Rule Collections**: Organize and manage rule collections
+- **Rule Management**: Create, update, and manage sophisticated find/replace operations
+- **Advanced Filtering**: Search and filter rules by collection and criteria
+
+### **AI-Powered Intelligence**
+- **Claude Integration**: Leverage Claude AI for intelligent security insights
+- **Natural Language**: Interact with security tools using natural language commands
+- **Automated Workflows**: Streamline security testing with AI-assisted automation
 
 ## Prerequisites
 

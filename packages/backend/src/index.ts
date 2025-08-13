@@ -126,7 +126,8 @@ async function desktopIntegration(
   toolName: string,
   input: string,
 ) {
-  const handler = handlers[toolName as keyof typeof handlers];
+  const handler =
+    handlers[toolName.replace("caido_", "") as keyof typeof handlers];
   if (!handler) {
     return `Handler for tool ${toolName} not found`;
   }

@@ -4085,6 +4085,218 @@ Total Entries: ${session.entries?.nodes?.length || 0}`;
   }
 };
 
+export const start_replay_task = async (sdk: SDK, input: any) => {
+  try {
+    const sessionId = input.session_id;
+    const rawRequest = input.raw_request;
+    const connection = input.connection;
+    const settings = input.settings || {};
+
+    if (!sessionId) {
+      return {
+        success: false,
+        error: "Session ID is required",
+        summary: "Please provide a session ID to start replay task",
+      };
+    }
+
+    if (!rawRequest) {
+      return {
+        success: false,
+        error: "Raw request is required",
+        summary: "Please provide a raw HTTP request to replay",
+      };
+    }
+
+    // Encode raw request to base64
+    const base64Request = Buffer.from(rawRequest, "utf8").toString("base64");
+
+    const query = `
+      mutation startReplayTask($sessionId: ID!, $input: StartReplayTaskInput!) {
+        startReplayTask(sessionId: $sessionId, input: $input) {
+          task {
+            id
+            createdAt
+            replayEntry {
+              id
+              error
+              connection {
+                host
+                port
+                isTLS
+                SNI
+              }
+              session {
+                id
+              }
+              settings {
+                placeholders {
+                  inputRange {
+                    start
+                    end
+                  }
+                  outputRange {
+                    start
+                    end
+                  }
+                  preprocessors {
+                    options {
+                      ... on ReplayPrefixPreprocessor {
+                        value
+                      }
+                      ... on ReplaySuffixPreprocessor {
+                        value
+                      }
+                      ... on ReplayUrlEncodePreprocessor {
+                        charset
+                        nonAscii
+                      }
+                      ... on ReplayWorkflowPreprocessor {
+                        id
+                      }
+                      ... on ReplayEnvironmentPreprocessor {
+                        variableName
+                      }
+                    }
+                  }
+                }
+              }
+              request {
+                id
+                host
+                port
+                path
+                query
+                method
+                edited
+                isTls
+                sni
+                length
+                alteration
+                metadata {
+                  id
+                  color
+                }
+                fileExtension
+                source
+                createdAt
+                response {
+                  id
+                  statusCode
+                  roundtripTime
+                  length
+                  createdAt
+                  alteration
+                  edited
+                }
+                stream {
+                  id
+                }
+                raw
+              }
+            }
+          }
+          error {
+            ... on TaskInProgressUserError {
+              code
+              taskId
+            }
+            ... on PermissionDeniedUserError {
+              code
+              reason
+            }
+            ... on CloudUserError {
+              code
+              reason
+            }
+            ... on OtherUserError {
+              code
+            }
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      sessionId: sessionId,
+      input: {
+        connection: connection || {
+          host: "localhost",
+          port: 80,
+          isTLS: false,
+          SNI: null,
+        },
+        raw: base64Request,
+        settings: {
+          placeholders: settings.placeholders || [],
+          updateContentLength: settings.updateContentLength !== false,
+        },
+      },
+    };
+
+    const result = await executeGraphQLQuery(sdk, {
+      query,
+      variables,
+      operationName: "startReplayTask",
+    });
+
+    if (!result.success || !result.data) {
+      return {
+        success: false,
+        error: result.error || "Failed to start replay task",
+        summary: `Failed to start replay task for session: ${sessionId}`,
+      };
+    }
+
+    const startResult = result.data.startReplayTask;
+
+    if (startResult.error) {
+      return {
+        success: false,
+        error: `Task start failed with error code: ${startResult.error.code}`,
+        summary: `Failed to start replay task: ${startResult.error.code}`,
+        details: startResult.error,
+      };
+    }
+
+    const task = startResult.task;
+
+    if (!task) {
+      return {
+        success: false,
+        error: "No task returned after start",
+        summary: `Task start completed but no task data returned for session: ${sessionId}`,
+      };
+    }
+
+    // Формируем подробный summary с данными о запущенной задаче
+    const taskSummary = `Successfully started replay task:
+Task ID: ${task.id}
+Task Created: ${task.createdAt}
+Session ID: ${task.replayEntry?.session?.id || "N/A"}
+Entry ID: ${task.replayEntry?.id || "N/A"}
+Connection: ${task.replayEntry?.connection ? `${task.replayEntry.connection.host}:${task.replayEntry.connection.port} (${task.replayEntry.connection.isTLS ? "TLS" : "HTTP"})` : "N/A"}
+Request Method: ${task.replayEntry?.request?.method || "N/A"}
+Request Path: ${task.replayEntry?.request?.path || "N/A"}`;
+
+    return {
+      success: true,
+      task: task,
+      summary: taskSummary,
+      message: `Replay task started successfully for session ${sessionId}`,
+      taskId: task.id,
+    };
+  } catch (error) {
+    sdk.console.error("Error starting replay task:", error);
+    return {
+      success: false,
+      error: `Failed to start replay task: ${error}`,
+      details: error instanceof Error ? error.message : String(error),
+      summary: "Failed to start replay task due to unexpected error",
+    };
+  }
+};
+
 export const handlers = {
   list_by_httpql,
   view_request_by_id,
@@ -4110,4 +4322,5 @@ export const handlers = {
   update_finding,
   delete_findings,
   move_replay_session,
+  start_replay_task,
 };

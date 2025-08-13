@@ -832,4 +832,61 @@ Example:
       required: ["id", "collection_id"],
     },
   },
+  {
+    name: "start_replay_task",
+    description:
+      "Start a replay task to execute a request in a specific session",
+    input_schema: {
+      type: "object",
+      properties: {
+        session_id: {
+          type: "string",
+          description: "The ID of the replay session to start the task in",
+        },
+        raw_request: {
+          type: "string",
+          description:
+            "The raw HTTP request to replay (will be automatically encoded to base64)",
+        },
+        connection: {
+          type: "object",
+          description: "Connection settings for the replay task",
+          properties: {
+            host: {
+              type: "string",
+              description: "Target host for the request",
+            },
+            port: {
+              type: "number",
+              description: "Target port for the request",
+            },
+            isTLS: {
+              type: "boolean",
+              description: "Whether to use TLS/HTTPS",
+            },
+            SNI: {
+              type: "string",
+              description: "Server Name Indication for TLS",
+            },
+          },
+        },
+        settings: {
+          type: "object",
+          description: "Additional settings for the replay task",
+          properties: {
+            placeholders: {
+              type: "array",
+              description: "Array of placeholder configurations",
+            },
+            updateContentLength: {
+              type: "boolean",
+              description:
+                "Whether to automatically update Content-Length header",
+            },
+          },
+        },
+      },
+      required: ["session_id", "raw_request"],
+    },
+  },
 ];

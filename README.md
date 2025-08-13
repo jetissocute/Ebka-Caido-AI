@@ -27,6 +27,7 @@ _A powerful AI-powered assistant for Caido web application security testing, bui
     - [**Replay Session Management**](#replay-session-management)
     - [**Security Findings Management**](#security-findings-management)
     - [**Match/Replace Rules**](#matchreplace-rules)
+    - [**Filters**](#filters)
     - [**AI-Powered Intelligence**](#ai-powered-intelligence)
   - [Prerequisites](#prerequisites)
   - [Getting Started](#getting-started)
@@ -48,7 +49,7 @@ Ebka AI is an AI-powered assistant that integrates seamlessly with Caido, provid
 
 ## Features
 
-Ebka AI provides **25+ powerful Claude tools** for Caido:
+Ebka AI provides **30+ powerful Claude tools** for Caido:
 
 ### **Request Analysis & Search**
 - **HTTPQL Query Search**: Advanced filtering and analysis using HTTPQL syntax
@@ -71,6 +72,9 @@ Ebka AI provides **25+ powerful Claude tools** for Caido:
 - **Rule Management**: Create, update, and manage sophisticated find/replace operations
 - **Advanced Filtering**: Search and filter rules by collection and criteria
 
+### **Filters**
+- ** Create and update Filters**
+  
 ### **AI-Powered Intelligence**
 - **Claude Integration**: Leverage Claude AI for intelligent security insights
 - **Natural Language**: Interact with security tools using natural language commands

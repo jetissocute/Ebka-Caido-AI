@@ -79,7 +79,7 @@ There are two ways to interact with the Caido AI Assistant:
 4. **Paste the request** in Claude to set the accessKey and API URL
 5. **Congratulations!** You can now communicate with Caido through Claude
 
-![Claude Desktop Integration](./static/claude-desktop.jpg)
+![Claude Desktop Integration](./static/claude-init.jpg)
 *Claude Desktop Integration*
 
 ### Method 2 - Direct API Access (Requires API Key)

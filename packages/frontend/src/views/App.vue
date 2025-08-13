@@ -839,6 +839,7 @@ Caido has the following modules:
 - **Replay** - Consists of collections. Each collection contains sessions (requests). Users typically send interesting requests for user, and it's very important that both requests and collections are properly named so users don't get confused later.
 - **Match/Replace (Tamper)** - Consists of collections. Each collection contains rules. Needed so users can automatically modify requests or responses. Like with Replay, it's important to maintain proper naming.
 - **Findings** - Consists of discovered vulnerabilities. Users can create and view security findings.
+- **Scopes** - Consists of scopes. Usually bug hunters and pentesters are limited to a certain scope, on which they have the right to send requests. So sometimes it can be useful.
 
 For additional details, refer to the descriptions of the Caido tools that are loaded into you.
 

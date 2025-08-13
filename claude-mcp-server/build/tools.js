@@ -789,7 +789,7 @@ Example:
         },
     },
     {
-        name: "move_replay_session",
+        name: "caido_move_replay_session",
         description: "Move a replay session to a different collection",
         input_schema: {
             type: "object",
@@ -988,6 +988,96 @@ Example:
                 id: {
                     type: "string",
                     description: "The ID of the filter preset to delete",
+                },
+            },
+            required: ["id"],
+        },
+    },
+    {
+        name: "list_scopes",
+        description: "List all available scopes in Caido",
+        input_schema: {
+            type: "object",
+            properties: {},
+        },
+    },
+    {
+        name: "create_scope",
+        description: "Create a new scope with allowlist and denylist",
+        input_schema: {
+            type: "object",
+            properties: {
+                name: {
+                    type: "string",
+                    description: "Name of the scope",
+                },
+                allowlist: {
+                    type: "array",
+                    items: {
+                        type: "string",
+                    },
+                    description: "List of allowed domains/hosts (optional)",
+                },
+                denylist: {
+                    type: "array",
+                    items: {
+                        type: "string",
+                    },
+                    description: "List of denied domains/hosts (optional)",
+                },
+                indexed: {
+                    type: "boolean",
+                    description: "Whether the scope should be indexed (default: true)",
+                },
+            },
+            required: ["name"],
+        },
+    },
+    {
+        name: "update_scope",
+        description: "Update an existing scope with new values",
+        input_schema: {
+            type: "object",
+            properties: {
+                id: {
+                    type: "string",
+                    description: "The ID of the scope to update",
+                },
+                name: {
+                    type: "string",
+                    description: "New name for the scope (optional)",
+                },
+                allowlist: {
+                    type: "array",
+                    items: {
+                        type: "string",
+                    },
+                    description: "New allowlist for the scope (optional)",
+                },
+                denylist: {
+                    type: "array",
+                    items: {
+                        type: "string",
+                    },
+                    description: "New denylist for the scope (optional)",
+                },
+                indexed: {
+                    type: "boolean",
+                    description: "New indexed value for the scope (optional)",
+                },
+            },
+            required: ["id"],
+        },
+    },
+    {
+        name: "delete_scope",
+        description: "Delete a scope by its ID",
+        input_schema: {
+            type: "object",
+            properties: {
+                id: {
+                    type: "string",
+                    description: "The ID of the scope to delete",
                 },
             },
             required: ["id"],

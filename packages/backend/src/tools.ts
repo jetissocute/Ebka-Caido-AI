@@ -704,13 +704,15 @@ Example:
   },
   {
     name: "list_findings",
-    description: "List security findings from Caido with pagination and filtering support",
+    description:
+      "List security findings from Caido with pagination and filtering support",
     input_schema: {
       type: "object",
       properties: {
         limit: {
           type: "number",
-          description: "Maximum number of findings to retrieve (default: 50, max: 200)",
+          description:
+            "Maximum number of findings to retrieve (default: 50, max: 200)",
         },
         offset: {
           type: "number",
@@ -718,7 +720,8 @@ Example:
         },
         filter: {
           type: "object",
-          description: "Optional filter criteria for findings (empty object for no filtering)",
+          description:
+            "Optional filter criteria for findings (empty object for no filtering)",
         },
         order: {
           type: "object",
@@ -726,7 +729,8 @@ Example:
           properties: {
             by: {
               type: "string",
-              description: "Field to sort by (e.g., 'ID', 'CREATED_AT', 'TITLE')",
+              description:
+                "Field to sort by (e.g., 'ID', 'CREATED_AT', 'TITLE')",
             },
             ordering: {
               type: "string",
@@ -739,7 +743,8 @@ Example:
   },
   {
     name: "get_finding_by_id",
-    description: "Get detailed information about a specific security finding by its ID",
+    description:
+      "Get detailed information about a specific security finding by its ID",
     input_schema: {
       type: "object",
       properties: {
@@ -753,7 +758,8 @@ Example:
   },
   {
     name: "update_finding",
-    description: "Update an existing security finding with new title, description, or other fields",
+    description:
+      "Update an existing security finding with new title, description, or other fields",
     input_schema: {
       type: "object",
       properties: {
@@ -809,7 +815,7 @@ Example:
     },
   },
   {
-    name: "move_replay_session",
+    name: "caido_move_replay_session",
     description: "Move a replay session to a different collection",
     input_schema: {
       type: "object",
@@ -828,7 +834,8 @@ Example:
   },
   {
     name: "start_replay_task",
-    description: "Start a replay task to execute a request in a specific session",
+    description:
+      "Start a replay task to execute a request in a specific session",
     input_schema: {
       type: "object",
       properties: {
@@ -838,7 +845,8 @@ Example:
         },
         raw_request: {
           type: "string",
-          description: "The raw HTTP request to replay (will be automatically encoded to base64)",
+          description:
+            "The raw HTTP request to replay (will be automatically encoded to base64)",
         },
         connection: {
           type: "object",
@@ -872,7 +880,8 @@ Example:
             },
             updateContentLength: {
               type: "boolean",
-              description: "Whether to automatically update Content-Length header",
+              description:
+                "Whether to automatically update Content-Length header",
             },
           },
         },
@@ -917,13 +926,15 @@ Example:
   },
   {
     name: "get_websocket_message_count",
-    description: "Get the total count of messages in a specific WebSocket stream",
+    description:
+      "Get the total count of messages in a specific WebSocket stream",
     input_schema: {
       type: "object",
       properties: {
         stream_id: {
           type: "string",
-          description: "The unique ID of the WebSocket stream to get message count for",
+          description:
+            "The unique ID of the WebSocket stream to get message count for",
         },
       },
       required: ["stream_id"],
@@ -931,7 +942,8 @@ Example:
   },
   {
     name: "get_websocket_message",
-    description: "Get detailed information about a specific WebSocket message by its ID",
+    description:
+      "Get detailed information about a specific WebSocket message by its ID",
     input_schema: {
       type: "object",
       properties: {
@@ -1008,6 +1020,97 @@ Example:
         id: {
           type: "string",
           description: "The ID of the filter preset to delete",
+        },
+      },
+      required: ["id"],
+    },
+  },
+  {
+    name: "list_scopes",
+    description: "List all available scopes in Caido",
+    input_schema: {
+      type: "object",
+      properties: {},
+    },
+  },
+  {
+    name: "create_scope",
+    description: "Create a new scope with allowlist and denylist",
+    input_schema: {
+      type: "object",
+      properties: {
+        name: {
+          type: "string",
+          description: "Name of the scope",
+        },
+        allowlist: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          description:
+            "List of allowed domains/hosts (optional). Supports *.domain",
+        },
+        denylist: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          description: "List of denied domains/hosts (optional)",
+        },
+        indexed: {
+          type: "boolean",
+          description: "Whether the scope should be indexed (default: true)",
+        },
+      },
+      required: ["name"],
+    },
+  },
+  {
+    name: "update_scope",
+    description: "Update an existing scope with new values",
+    input_schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "The ID of the scope to update",
+        },
+        name: {
+          type: "string",
+          description: "New name for the scope (optional)",
+        },
+        allowlist: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          description: "New allowlist for the scope (optional)",
+        },
+        denylist: {
+          type: "array",
+          items: {
+            type: "string",
+          },
+          description: "New denylist for the scope (optional)",
+        },
+        indexed: {
+          type: "boolean",
+          description: "New indexed value for the scope (optional)",
+        },
+      },
+      required: ["id"],
+    },
+  },
+  {
+    name: "delete_scope",
+    description: "Delete a scope by its ID",
+    input_schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "The ID of the scope to delete",
         },
       },
       required: ["id"],

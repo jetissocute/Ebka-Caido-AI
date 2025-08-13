@@ -41,6 +41,7 @@ Ebka AI is an AI-powered assistant that integrates seamlessly with Caido, provid
 ---
 
 ## Features
+More 19+ Claude tools:
 
 - **HTTPQL Query Search**: Search through requests using HTTPQL syntax for efficient filtering and analysis
 - **Match/Replace Operations**: Edit Math/Replace rules with sophisticated find and replace operations

@@ -53,6 +53,7 @@ Ebka AI provides **25+ powerful Claude tools** for Caido:
 - **HTTPQL Query Search**: Advanced filtering and analysis using HTTPQL syntax
 - **Request/Response Viewing**: Inspect individual requests and responses by ID
 - **Custom Request Sending**: Send HTTP requests with full control over headers, body, and parameters
+- **Wesocket stream managment**: Read and analyze websocket streams
 
 ### **Replay Session Management**
 - **Replay Collections**: Create, list, and manage replay session collections

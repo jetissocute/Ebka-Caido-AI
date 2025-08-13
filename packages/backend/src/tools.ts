@@ -889,4 +889,70 @@ Example:
       required: ["session_id", "raw_request"],
     },
   },
+  {
+    name: "list_websocket_streams",
+    description: "List WebSocket streams with pagination and filtering support",
+    input_schema: {
+      type: "object",
+      properties: {
+        limit: {
+          type: "number",
+          description: "Maximum number of streams to retrieve (default: 50)",
+        },
+        offset: {
+          type: "number",
+          description: "Number of streams to skip for pagination (default: 0)",
+        },
+        scope_id: {
+          type: "string",
+          description: "Optional scope ID to filter streams",
+        },
+        order: {
+          type: "object",
+          description: "Sorting order for streams (default: by ID descending)",
+          properties: {
+            by: {
+              type: "string",
+              description: "Field to sort by (e.g., 'ID', 'CREATED_AT')",
+            },
+            ordering: {
+              type: "string",
+              description: "Sort order ('ASC' or 'DESC')",
+            },
+          },
+        },
+      },
+    },
+  },
+  {
+    name: "get_websocket_message_count",
+    description:
+      "Get the total count of messages in a specific WebSocket stream",
+    input_schema: {
+      type: "object",
+      properties: {
+        stream_id: {
+          type: "string",
+          description:
+            "The unique ID of the WebSocket stream to get message count for",
+        },
+      },
+      required: ["stream_id"],
+    },
+  },
+  {
+    name: "get_websocket_message",
+    description:
+      "Get detailed information about a specific WebSocket message by its ID",
+    input_schema: {
+      type: "object",
+      properties: {
+        id: {
+          type: "string",
+          description: "The unique ID of the WebSocket message to retrieve",
+        },
+      },
+      required: ["id"],
+    },
+  },
 ];

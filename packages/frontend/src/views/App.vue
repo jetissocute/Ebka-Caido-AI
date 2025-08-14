@@ -914,8 +914,26 @@ host: ${window.location.origin}
       <div v-if="!currentApiKey" class="api-key-required">
         <div class="api-key-required-content">
           <div class="api-key-required-icon">🔑</div>
-          <h2>Provide API Key to start</h2>
-          <p>Please set your Anthropic API key above to begin using the chat</p>
+          <h2>Install Claude MCP with instruction or provide API Key</h2>
+          <div class="installation-options">
+            <div class="option">
+              <h3>Option 1: Install Claude MCP</h3>
+              <p>Follow the installation guide to set up Claude MCP server:</p>
+              <a
+                href="https://github.com/Slonser/Ebka-Caido-AI/blob/main/claude-mcp-server/README.md"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="installation-link"
+              >
+                📖 View Installation Instructions
+              </a>
+            </div>
+            <div class="option-divider">OR</div>
+            <div class="option">
+              <h3>Option 2: Provide API Key</h3>
+              <p>Set your Anthropic API key above to begin using the chat</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1351,6 +1369,63 @@ host: ${window.location.origin}
   margin: 0;
   font-size: 1.1rem;
   color: #666;
+}
+
+/* Installation Options */
+.installation-options {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+}
+
+.option {
+  text-align: center;
+  padding: 20px;
+  border: 1px solid rgba(224, 224, 224, 0.3);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  min-width: 300px;
+}
+
+.option h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #a0213e;
+}
+
+.option p {
+  margin: 0 0 15px 0;
+  font-size: 1rem;
+  color: #666;
+}
+
+.option-divider {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #a0213e;
+  padding: 10px;
+  background: rgba(160, 33, 62, 0.1);
+  border-radius: 20px;
+  min-width: 60px;
+  text-align: center;
+}
+
+.installation-link {
+  display: inline-block;
+  padding: 10px 20px;
+  background: #a0213e;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+}
+
+.installation-link:hover {
+  background: #8a1c35;
+  text-decoration: none;
 }
 
 /* Main Content Container */

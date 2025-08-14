@@ -1094,12 +1094,8 @@ Example:
           },
           description: "New denylist for the scope (optional)",
         },
-        indexed: {
-          type: "boolean",
-          description: "New indexed value for the scope (optional)",
-        },
       },
-      required: ["id"],
+      required: ["id", "name", "allowlist", "denylist"],
     },
   },
   {

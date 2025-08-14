@@ -1,6 +1,12 @@
 import type { SDK } from "caido:plugin";
 
 import { executeGraphQLQuery } from "../graphql";
+import {
+  DELETE_FINDINGS_MUTATION,
+  FINDINGS_BY_OFFSET_QUERY,
+  GET_FINDING_BY_ID_QUERY,
+  UPDATE_FINDING_MUTATION,
+} from "../graphql/queries";
 
 export const update_finding = async (sdk: SDK, input: any) => {
   try {
@@ -23,62 +29,8 @@ export const update_finding = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation updateFinding($id: ID!, $input: UpdateFindingInput!) {
-          updateFinding(id: $id, input: $input) {
-            finding {
-              id
-              title
-              description
-              reporter
-              host
-              path
-              createdAt
-              request {
-                id
-                host
-                port
-                path
-                query
-                method
-                edited
-                isTls
-                sni
-                length
-                alteration
-                fileExtension
-                source
-                createdAt
-                metadata {
-                  id
-                  color
-                }
-                response {
-                  id
-                  statusCode
-                  roundtripTime
-                  length
-                  createdAt
-                  alteration
-                  edited
-                }
-                stream {
-                  id
-                }
-              }
-            }
-            error {
-              ... on OtherUserError {
-                code
-              }
-              ... on UnknownIdUserError {
-                code
-                id
-              }
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for updating finding
+    const query = UPDATE_FINDING_MUTATION;
 
     const variables = {
       id: findingId,
@@ -157,13 +109,8 @@ export const delete_findings = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation deleteFindings($input: DeleteFindingsInput!) {
-          deleteFindings(input: $input) {
-            deletedIds
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for deleting findings
+    const query = DELETE_FINDINGS_MUTATION;
 
     const variables = {
       input: {
@@ -226,50 +173,8 @@ export const list_findings = async (sdk: SDK, input: any) => {
     const limit = input.limit || 50;
     const offset = input.offset || 0;
 
-    const query = `
-        query getFindingsByOffset($offset: Int!, $limit: Int!, $filter: FilterClauseFindingInput!, $order: FindingOrderInput!) {
-          findingsByOffset(offset: $offset, limit: $limit, filter: $filter, order: $order) {
-            edges {
-              cursor
-              node {
-                id
-                title
-                description
-                reporter
-                host
-                path
-                createdAt
-                request {
-                  id
-                  host
-                  port
-                  path
-                  query
-                  method
-                  isTls
-                  length
-                  source
-                  createdAt
-                  response {
-                    id
-                    statusCode
-                    roundtripTime
-                    length
-                    createdAt
-                  }
-                }
-              }
-            }
-            pageInfo {
-              hasPreviousPage
-              hasNextPage
-              startCursor
-              endCursor
-            }
-            snapshot
-          }
-        }
-      `;
+    // Use imported GraphQL query for listing findings with pagination
+    const query = FINDINGS_BY_OFFSET_QUERY;
 
     const variables = {
       filter: input.filter || {},
@@ -341,53 +246,8 @@ export const get_finding_by_id = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        query getFindingById($id: ID!) {
-          finding(id: $id) {
-            id
-            title
-            description
-            reporter
-            host
-            path
-            createdAt
-            request {
-              id
-              host
-              port
-              path
-              query
-              method
-              edited
-              isTls
-              sni
-              length
-              alteration
-              fileExtension
-              source
-              createdAt
-              raw
-              metadata {
-                id
-                color
-              }
-              response {
-                id
-                statusCode
-                roundtripTime
-                length
-                createdAt
-                alteration
-                edited
-                raw
-              }
-              stream {
-                id
-              }
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL query for getting finding by ID
+    const query = GET_FINDING_BY_ID_QUERY;
 
     const variables = {
       id: findingId,

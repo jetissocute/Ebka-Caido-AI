@@ -123,7 +123,7 @@ export const sendRequest = async (sdk: SDK, input: any) => {
       success: false,
       error: `Failed to send request: ${error}`,
       details: error instanceof Error ? error.message : String(error),
-      summary: "Failed to send request due to unexpected error",
+      summary: "Failed to send request due to unexpected error.",
     };
   }
 };

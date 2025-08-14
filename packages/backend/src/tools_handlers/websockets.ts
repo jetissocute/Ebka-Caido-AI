@@ -1,6 +1,12 @@
 import type { SDK } from "caido:plugin";
 
 import { executeGraphQLQuery } from "../graphql";
+import {
+  WEBSOCKET_MESSAGE_COUNT_QUERY,
+  WEBSOCKET_MESSAGE_QUERY,
+  WEBSOCKET_STREAMS_QUERY,
+} from "../graphql/queries";
+
 export const list_websocket_streams = async (sdk: SDK, input: any) => {
   try {
     const limit = input.limit || 50;
@@ -8,39 +14,8 @@ export const list_websocket_streams = async (sdk: SDK, input: any) => {
     const scopeId = input.scope_id;
     const order = input.order || { by: "ID", ordering: "DESC" };
 
-    const query = `
-        query websocketStreamsByOffset($offset: Int!, $limit: Int!, $scopeId: ID, $order: StreamOrderInput!) {
-          streamsByOffset(
-            offset: $offset
-            limit: $limit
-            scopeId: $scopeId
-            order: $order
-            protocol: WS
-          ) {
-            edges {
-              cursor
-              node {
-                id
-                createdAt
-                direction
-                host
-                isTls
-                path
-                port
-                protocol
-                source
-              }
-            }
-            pageInfo {
-              hasPreviousPage
-              hasNextPage
-              startCursor
-              endCursor
-            }
-            snapshot
-          }
-        }
-      `;
+    // Use imported GraphQL query for WebSocket streams
+    const query = WEBSOCKET_STREAMS_QUERY;
 
     const variables = {
       limit: limit,
@@ -106,16 +81,8 @@ export const get_websocket_message_count = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        query websocketMessageCount($streamId: ID!) {
-          streamWsMessages(first: 0, streamId: $streamId) {
-            count {
-              value
-              snapshot
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL query for WebSocket message count
+    const query = WEBSOCKET_MESSAGE_COUNT_QUERY;
 
     const variables = {
       streamId: streamId,
@@ -180,19 +147,8 @@ export const get_websocket_message = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        query websocketMessageEdit($id: ID!) {
-          streamWsMessageEdit(id: $id) {
-            id
-            length
-            alteration
-            direction
-            format
-            createdAt
-            raw
-          }
-        }
-      `;
+    // Use imported GraphQL query for WebSocket message details
+    const query = WEBSOCKET_MESSAGE_QUERY;
 
     const variables = {
       id: messageId,

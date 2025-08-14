@@ -4,6 +4,16 @@ import {
   executeGraphQLQuery,
   getDefaultReplayCollectionsQuery,
 } from "../graphql";
+import {
+  CREATE_REPLAY_SESSION_COLLECTION_MUTATION,
+  getMoveReplaySessionFragments,
+  getRenameReplaySessionCollectionFragments,
+  getStartReplayTaskFragments,
+  MOVE_REPLAY_SESSION_MUTATION,
+  RENAME_REPLAY_SESSION_COLLECTION_MUTATION,
+  RENAME_REPLAY_SESSION_MUTATION,
+  START_REPLAY_TASK_MUTATION,
+} from "../graphql/queries";
 
 export const send_to_replay = async (sdk: SDK, input: any) => {
   try {
@@ -271,7 +281,7 @@ export const rename_replay_collection = async (sdk: SDK, input: any) => {
     if (!newName.trim()) {
       return {
         error: "New name cannot be empty",
-        summary: "Invalid new name",
+        summary: "Invalid new name: new name cannot be empty",
       };
     }
 
@@ -320,29 +330,58 @@ export const rename_replay_collection = async (sdk: SDK, input: any) => {
       }
     }
 
-    // Attempt to rename the collection
+    // Attempt to rename the collection using GraphQL
     try {
-      // Note: The current SDK doesn't provide a direct rename method
-      // So we'll indicate this limitation and provide alternative approaches
-      sdk.console.log(`Renaming collection from "${oldName}" to "${newName}"`);
+      sdk.console.log(
+        `Renaming collection from "${oldName}" to "${newName}" using GraphQL...`,
+      );
 
-      // For now, we'll return success with a note about the limitation
-      // In a real implementation, this would call sdk.replay.renameCollection(collectionId, newName)
+      // Use GraphQL mutation to rename the collection with specific fragments
+      const query =
+        RENAME_REPLAY_SESSION_COLLECTION_MUTATION +
+        "\n" +
+        getRenameReplaySessionCollectionFragments();
 
-      return {
-        success: true,
-        collection_id: collectionId,
-        old_name: oldName,
-        new_name: newName,
-        message: "Collection rename request processed successfully",
-        note: "Note: Actual renaming requires additional SDK methods not currently available",
-        summary: `Collection "${oldName}" renamed to "${newName}" (rename request processed)`,
+      const variables = {
+        id: collectionId,
+        name: newName,
       };
-    } catch (error) {
-      sdk.console.error(`Error renaming collection: ${error}`);
+
+      const result = await executeGraphQLQuery(sdk, {
+        query,
+        variables,
+        operationName: "renameReplaySessionCollection",
+      });
+
+      if (
+        result.success &&
+        result.data?.renameReplaySessionCollection?.collection
+      ) {
+        const collection = result.data.renameReplaySessionCollection.collection;
+        sdk.console.log(`Successfully renamed collection to "${newName}"`);
+
+        return {
+          success: true,
+          collection_id: collection.id,
+          old_name: oldName,
+          new_name: collection.name,
+          collection_details: collection,
+          message: `Collection successfully renamed to "${newName}"`,
+          summary: `Collection "${oldName}" renamed to "${newName}"`,
+        };
+      } else {
+        return {
+          error:
+            result.error ||
+            "Failed to rename collection - no collection data returned",
+          summary: "Collection rename failed",
+        };
+      }
+    } catch (graphqlError) {
+      sdk.console.error(`GraphQL error renaming collection: ${graphqlError}`);
       return {
-        error: `Failed to rename collection: ${error instanceof Error ? error.message : "Unknown error"}`,
-        summary: "Failed to rename collection",
+        error: `GraphQL error: ${graphqlError instanceof Error ? graphqlError.message : "Unknown GraphQL error"}`,
+        summary: "Failed to rename collection via GraphQL",
       };
     }
   } catch (error) {
@@ -369,17 +408,8 @@ export const rename_replay_session = async (sdk: SDK, input: any) => {
       };
     }
 
-    // Execute GraphQL mutation to rename the session
-    const mutation = `
-        mutation renameReplaySession($id: ID!, $name: String!) {
-          renameReplaySession(id: $id, name: $name) {
-            session {
-              id
-              name
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for renaming replay session
+    const mutation = RENAME_REPLAY_SESSION_MUTATION;
 
     const variables = {
       id: sessionId,
@@ -821,17 +851,8 @@ export const create_replay_collection = async (sdk: SDK, input: any) => {
       };
     }
 
-    // Execute GraphQL mutation to create the collection
-    const mutation = `
-        mutation createReplaySessionCollection($input: CreateReplaySessionCollectionInput!) {
-          createReplaySessionCollection(input: $input) {
-            collection {
-              id
-              name
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for creating replay session collection
+    const mutation = CREATE_REPLAY_SESSION_COLLECTION_MUTATION;
 
     const variables = {
       input: {
@@ -910,97 +931,9 @@ export const move_replay_session = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation moveReplaySession($id: ID!, $collectionId: ID!) {
-          moveReplaySession(collectionId: $collectionId, id: $id) {
-            session {
-              id
-              name
-              collection {
-                id
-              }
-              activeEntry {
-                id
-                error
-                connection {
-                  host
-                  port
-                  isTLS
-                  SNI
-                }
-                request {
-                  id
-                  host
-                  port
-                  path
-                  query
-                  method
-                  edited
-                  isTls
-                  sni
-                  length
-                  alteration
-                  fileExtension
-                  source
-                  createdAt
-                  response {
-                    id
-                    statusCode
-                    roundtripTime
-                    length
-                    createdAt
-                    alteration
-                    edited
-                  }
-                  stream {
-                    id
-                  }
-                }
-              }
-              entries {
-                nodes {
-                  id
-                  error
-                  connection {
-                    host
-                    port
-                    isTLS
-                    SNI
-                  }
-                  request {
-                    id
-                    host
-                    port
-                    path
-                    query
-                    method
-                    edited
-                    isTls
-                    sni
-                    length
-                    alteration
-                    fileExtension
-                    source
-                    createdAt
-                    response {
-                      id
-                      statusCode
-                      roundtripTime
-                      length
-                      createdAt
-                      alteration
-                      edited
-                    }
-                    stream {
-                      id
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for moving replay session with specific fragments
+    const query =
+      MOVE_REPLAY_SESSION_MUTATION + "\n" + getMoveReplaySessionFragments();
 
     const variables = {
       id: sessionId,
@@ -1083,111 +1016,9 @@ export const start_replay_task = async (sdk: SDK, input: any) => {
     // Encode raw request to base64
     const base64Request = Buffer.from(rawRequest, "utf8").toString("base64");
 
-    const query = `
-        mutation startReplayTask($sessionId: ID!, $input: StartReplayTaskInput!) {
-          startReplayTask(sessionId: $sessionId, input: $input) {
-            task {
-              id
-              createdAt
-              replayEntry {
-                id
-                error
-                connection {
-                  host
-                  port
-                  isTLS
-                  SNI
-                }
-                session {
-                  id
-                }
-                settings {
-                  placeholders {
-                    inputRange {
-                      start
-                      end
-                    }
-                    outputRange {
-                      start
-                      end
-                    }
-                    preprocessors {
-                      options {
-                        ... on ReplayPrefixPreprocessor {
-                          value
-                        }
-                        ... on ReplaySuffixPreprocessor {
-                          value
-                        }
-                        ... on ReplayUrlEncodePreprocessor {
-                          charset
-                          nonAscii
-                        }
-                        ... on ReplayWorkflowPreprocessor {
-                          id
-                        }
-                        ... on ReplayEnvironmentPreprocessor {
-                          variableName
-                        }
-                      }
-                    }
-                  }
-                }
-                request {
-                  id
-                  host
-                  port
-                  path
-                  query
-                  method
-                  edited
-                  isTls
-                  sni
-                  length
-                  alteration
-                  metadata {
-                    id
-                    color
-                  }
-                  fileExtension
-                  source
-                  createdAt
-                  response {
-                    id
-                    statusCode
-                    roundtripTime
-                    length
-                    createdAt
-                    alteration
-                    edited
-                  }
-                  stream {
-                    id
-                  }
-                  raw
-                }
-              }
-            }
-            error {
-              ... on TaskInProgressUserError {
-                code
-                taskId
-              }
-              ... on PermissionDeniedUserError {
-                code
-                reason
-              }
-              ... on CloudUserError {
-                code
-                reason
-              }
-              ... on OtherUserError {
-                code
-              }
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for starting replay task with specific fragments
+    const query =
+      START_REPLAY_TASK_MUTATION + "\n" + getStartReplayTaskFragments();
 
     const variables = {
       sessionId: sessionId,

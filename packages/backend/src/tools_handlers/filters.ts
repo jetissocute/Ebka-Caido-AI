@@ -1,19 +1,17 @@
 import type { SDK } from "caido:plugin";
 
 import { executeGraphQLQuery } from "../graphql";
+import {
+  CREATE_FILTER_PRESET_MUTATION,
+  DELETE_FILTER_PRESET_MUTATION,
+  FILTER_PRESETS_QUERY,
+  UPDATE_FILTER_PRESET_MUTATION,
+} from "../graphql/queries";
 
 export const list_filter_presets = async (sdk: SDK, input: any) => {
   try {
-    const query = `
-        query filterPresets {
-          filterPresets {
-            id
-            alias
-            name
-            clause
-          }
-        }
-      `;
+    // Use imported GraphQL query for listing filter presets
+    const query = FILTER_PRESETS_QUERY;
 
     const result = await executeGraphQLQuery(sdk, {
       query,
@@ -67,39 +65,8 @@ export const create_filter_preset = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation createFilterPreset($input: CreateFilterPresetInput!) {
-          createFilterPreset(input: $input) {
-            filter {
-              id
-              alias
-              name
-              clause
-            }
-            error {
-              ... on NameTakenUserError {
-                code
-                name
-              }
-              ... on AliasTakenUserError {
-                code
-                alias
-              }
-              ... on PermissionDeniedUserError {
-                code
-                reason
-              }
-              ... on CloudUserError {
-                code
-                reason
-              }
-              ... on OtherUserError {
-                code
-              }
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for creating filter preset
+    const query = CREATE_FILTER_PRESET_MUTATION;
 
     const variables = {
       input: {
@@ -187,31 +154,8 @@ export const update_filter_preset = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation updateFilterPreset($id: ID!, $input: UpdateFilterPresetInput!) {
-          updateFilterPreset(id: $id, input: $input) {
-            filter {
-              id
-              alias
-              name
-              clause
-            }
-            error {
-              ... on NameTakenUserError {
-                code
-                name
-              }
-              ... on AliasTakenUserError {
-                code
-                alias
-              }
-              ... on OtherUserError {
-                code
-              }
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for updating filter preset
+    const query = UPDATE_FILTER_PRESET_MUTATION;
 
     const updateInput: any = {};
     if (alias !== undefined) updateInput.alias = alias;
@@ -293,13 +237,8 @@ export const delete_filter_preset = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation deleteFilterPreset($id: ID!) {
-          deleteFilterPreset(id: $id) {
-            deletedId
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for deleting filter preset
+    const query = DELETE_FILTER_PRESET_MUTATION;
 
     const variables = {
       id: filterId,

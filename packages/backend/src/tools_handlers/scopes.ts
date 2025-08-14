@@ -1,20 +1,17 @@
 import type { SDK } from "caido:plugin";
 
 import { executeGraphQLQuery } from "../graphql";
+import {
+  CREATE_SCOPE_MUTATION,
+  DELETE_SCOPE_MUTATION,
+  SCOPES_QUERY,
+  UPDATE_SCOPE_MUTATION,
+} from "../graphql/queries";
 
 export const list_scopes = async (sdk: SDK, input: any) => {
   try {
-    const query = `
-        query scopes {
-          scopes {
-            id
-            name
-            allowlist
-            denylist
-            indexed
-          }
-        }
-      `;
+    // Use imported GraphQL query for listing scopes
+    const query = SCOPES_QUERY;
 
     const result = await executeGraphQLQuery(sdk, {
       query,
@@ -35,7 +32,7 @@ export const list_scopes = async (sdk: SDK, input: any) => {
     const scopesSummary = scopes
       .map(
         (scope: any) =>
-          `ID: ${scope.id} | Name: ${scope.name} | Allowlist: [${scope.allowlist.join(", ") || "Empty"}] | Denylist: [${scope.denylist.join(", ") || "Empty"}] | Indexed: ${scope.indexed ? "Yes" : "No"}`,
+          `ID: ${scope.id} | Name: ${scope.name} | Allowlist: [${scope.allowlist.join(", ") || "Empty"}] | Denylist: [${scope.denylist.join(", ") || "Empty"}]`,
       )
       .join("\n");
 
@@ -59,7 +56,7 @@ export const list_scopes = async (sdk: SDK, input: any) => {
 
 export const create_scope = async (sdk: SDK, input: any) => {
   try {
-    const { name, allowlist, denylist, indexed } = input;
+    const { name, allowlist, denylist } = input;
 
     if (!name) {
       return {
@@ -69,35 +66,14 @@ export const create_scope = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation createScope($input: CreateScopeInput!) {
-          createScope(input: $input) {
-            error {
-              ... on InvalidGlobTermsUserError {
-                code
-                terms
-              }
-              ... on OtherUserError {
-                code
-              }
-            }
-            scope {
-              id
-              name
-              allowlist
-              denylist
-              indexed
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for creating scope
+    const query = CREATE_SCOPE_MUTATION;
 
     const variables = {
       input: {
         name: name,
         allowlist: allowlist || [],
         denylist: denylist || [],
-        indexed: indexed !== false,
       },
     };
 
@@ -140,8 +116,7 @@ export const create_scope = async (sdk: SDK, input: any) => {
   ID: ${scope.id}
   Name: ${scope.name}
   Allowlist: [${scope.allowlist.join(", ") || "Empty"}]
-  Denylist: [${scope.denylist.join(", ") || "Empty"}]
-  Indexed: ${scope.indexed ? "Yes" : "No"}`;
+  Denylist: [${scope.denylist.join(", ") || "Empty"}]`;
 
     return {
       success: true,
@@ -162,7 +137,7 @@ export const create_scope = async (sdk: SDK, input: any) => {
 
 export const update_scope = async (sdk: SDK, input: any) => {
   try {
-    const { id, name, allowlist, denylist, indexed } = input;
+    const { id, name, allowlist, denylist } = input;
 
     if (!id) {
       return {
@@ -172,48 +147,21 @@ export const update_scope = async (sdk: SDK, input: any) => {
       };
     }
 
-    if (
-      !name &&
-      allowlist === undefined &&
-      denylist === undefined &&
-      indexed === undefined
-    ) {
+    if (!name && allowlist === undefined && denylist === undefined) {
       return {
         success: false,
         error: "At least one field to update is required",
-        summary:
-          "Please provide name, allowlist, denylist, or indexed to update",
+        summary: "Please provide name, allowlist, or denylist to update",
       };
     }
 
-    const query = `
-        mutation updateScope($id: ID!, $input: UpdateScopeInput!) {
-          updateScope(id: $id, input: $input) {
-            error {
-              ... on InvalidGlobTermsUserError {
-                code
-                terms
-              }
-              ... on OtherUserError {
-                code
-              }
-            }
-            scope {
-              id
-              name
-              allowlist
-              denylist
-              indexed
-            }
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for updating scope
+    const query = UPDATE_SCOPE_MUTATION;
 
     const updateInput: any = {};
     if (name !== undefined) updateInput.name = name;
     if (allowlist !== undefined) updateInput.allowlist = allowlist;
     if (denylist !== undefined) updateInput.denylist = denylist;
-    if (indexed !== undefined) updateInput.indexed = indexed;
 
     const variables = {
       id: id,
@@ -259,8 +207,7 @@ export const update_scope = async (sdk: SDK, input: any) => {
   ID: ${scope.id}
   Name: ${scope.name}
   Allowlist: [${scope.allowlist.join(", ") || "Empty"}]
-  Denylist: [${scope.denylist.join(", ") || "Empty"}]
-  Indexed: ${scope.indexed ? "Yes" : "No"}`;
+  Denylist: [${scope.denylist.join(", ") || "Empty"}]`;
 
     return {
       success: true,
@@ -291,13 +238,8 @@ export const delete_scope = async (sdk: SDK, input: any) => {
       };
     }
 
-    const query = `
-        mutation deleteScope($id: ID!) {
-          deleteScope(id: $id) {
-            deletedId
-          }
-        }
-      `;
+    // Use imported GraphQL mutation for deleting scope
+    const query = DELETE_SCOPE_MUTATION;
 
     const variables = {
       id: scopeId,

@@ -1016,7 +1016,7 @@ Example:
                     items: {
                         type: "string",
                     },
-                    description: "List of allowed domains/hosts (optional)",
+                    description: "List of allowed domains/hosts (optional). Supports *.domain",
                 },
                 denylist: {
                     type: "array",

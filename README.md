@@ -28,6 +28,7 @@ _A powerful AI-powered assistant for Caido web application security testing, bui
     - [**Security Findings Management**](#security-findings-management)
     - [**Match/Replace Rules**](#matchreplace-rules)
     - [**Filters**](#filters)
+    - [**Scopes**](#scopes)
     - [**AI-Powered Intelligence**](#ai-powered-intelligence)
   - [Prerequisites](#prerequisites)
   - [Getting Started](#getting-started)
@@ -73,7 +74,10 @@ Ebka AI provides **30+ powerful Claude tools** for Caido:
 - **Advanced Filtering**: Search and filter rules by collection and criteria
 
 ### **Filters**
-- ** Create and update Filters**
+- **Create and update Filters**
+
+### **Scopes**
+- **Full scope management**: CRUD scopes, use created scopes in HTTPQL
   
 ### **AI-Powered Intelligence**
 - **Claude Integration**: Leverage Claude AI for intelligent security insights

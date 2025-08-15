@@ -48,6 +48,17 @@ import {
   get_websocket_message_count,
   list_websocket_streams,
 } from "./tools_handlers/websockets";
+import { tools_version } from "./tools";
+
+// Handler for getting tools version
+const get_tools_version = async () => {
+  return {
+    success: true,
+    version: tools_version,
+    timestamp: new Date().toISOString(),
+    summary: `Backend tools version: ${tools_version}`,
+  };
+};
 
 export const handlers = {
   list_by_httpql,
@@ -86,4 +97,5 @@ export const handlers = {
   create_scope,
   update_scope,
   delete_scope,
+  get_tools_version,
 };

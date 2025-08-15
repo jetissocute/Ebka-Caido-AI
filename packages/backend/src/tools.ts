@@ -1,3 +1,5 @@
+export const tools_version = "0.0.8";
+
 export const tools_description = [
   {
     name: "list_by_httpql",
@@ -1110,6 +1112,14 @@ Example:
         },
       },
       required: ["id"],
+    },
+  },
+  {
+    name: "get_tools_version",
+    description: "Get the current version of backend tools and API",
+    input_schema: {
+      type: "object",
+      properties: {},
     },
   },
 ];

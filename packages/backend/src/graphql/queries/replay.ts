@@ -250,3 +250,24 @@ export const START_REPLAY_TASK_MUTATION = `
     }
   }
 `;
+
+// Query for getting replay session collections
+export const getDefaultReplayCollectionsQuery = () => `
+  query replaySessionCollections {
+    replaySessionCollections {
+      edges {
+        node {
+          ...replaySessionCollectionMeta
+        }
+      }
+    }
+  }
+  
+  ${REPLAY_FRAGMENTS.connectionInfoFull}
+  ${REPLAY_FRAGMENTS.requestMetadataFull}
+  ${REPLAY_FRAGMENTS.responseMeta}
+  ${REPLAY_FRAGMENTS.requestMeta}
+  ${REPLAY_FRAGMENTS.replayEntryMeta}
+  ${REPLAY_FRAGMENTS.replaySessionMeta}
+  ${REPLAY_FRAGMENTS.replaySessionCollectionMeta}
+`;

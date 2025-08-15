@@ -843,9 +843,16 @@ Caido has the following modules:
 
 For additional details, refer to the descriptions of the Caido tools that are loaded into you.
 
+
+
+First you need to send the following request to configure the connection:
 sendAuthToken request:
 token: ${parsedAuth.accessToken}
 host: ${window.location.origin}
+
+Then you need to check the version of the tools that are loaded into you:
+get_tools_version
+If version is different from the version of the tools that are loaded into you, INFORM USER.
 `;
 
     await navigator.clipboard.writeText(requestText);

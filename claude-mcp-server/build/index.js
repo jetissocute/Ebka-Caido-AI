@@ -3,7 +3,7 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { CallToolRequestSchema, ListToolsRequestSchema, } from "@modelcontextprotocol/sdk/types.js";
 import axios from "axios";
-import { tools_description } from "./tools.js";
+import { tools_description, tools_version } from "./tools.js";
 import { appendFileSync } from "fs";
 // Configuration for connecting to Caido plugin
 let CAIDO_CONFIG = {
@@ -260,6 +260,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             // In MCP calls, args already contains the parameters object
             const params = JSON.stringify(args) || {};
             result = await callCaidoFunction("claudeDesktop", [JSON.stringify(name), JSON.stringify(params)]);
+            if (name === "get_tools_version") {
+                result.client_info += `\nMCP tools version: ${tools_version}`;
+            }
         }
         logToFile(`Tool ${name} executed successfully`);
         return {

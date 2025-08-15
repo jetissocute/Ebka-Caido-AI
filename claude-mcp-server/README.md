@@ -14,8 +14,8 @@ npm run build
 ```
 
 Add to claude desktop config:
-Linux/Macos path - code ~/Library/Application\ Support/Claude/claude_desktop_config.json
-Windows: code $env:AppData\Claude\claude_desktop_config.json
+Linux/Macos path - `code ~/Library/Application\ Support/Claude/claude_desktop_config.json`
+Windows: `code $env:AppData\Claude\claude_desktop_config.json`
 ```json
    {
      "mcpServers": {

@@ -1,3 +1,4 @@
+import { tools_version } from "./tools";
 import {
   create_filter_preset,
   delete_filter_preset,
@@ -48,10 +49,9 @@ import {
   get_websocket_message_count,
   list_websocket_streams,
 } from "./tools_handlers/websockets";
-import { tools_version } from "./tools";
 
 // Handler for getting tools version
-const get_tools_version = async () => {
+const get_tools_version = () => {
   return {
     success: true,
     version: tools_version,

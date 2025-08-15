@@ -1,8 +1,6 @@
 import type { SDK } from "caido:plugin";
 
-import {
-  executeGraphQLQuery,
-} from "../graphql";
+import { executeGraphQLQuery } from "../graphql";
 import {
   CREATE_REPLAY_SESSION_COLLECTION_MUTATION,
   getDefaultReplayCollectionsQuery,

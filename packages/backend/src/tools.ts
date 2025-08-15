@@ -1,4 +1,4 @@
-export const tools_version = "0.0.8";
+export const tools_version = "0.0.9";
 
 export const tools_description = [
   {
@@ -817,7 +817,7 @@ Example:
     },
   },
   {
-    name: "caido_move_replay_session",
+    name: "move_replay_session",
     description: "Move a replay session to a different collection",
     input_schema: {
       type: "object",

@@ -12,7 +12,7 @@ export default defineConfig({
   id,
   name: "Ebka AI Assistant",
   description: "Integrates with Claude AI to provide AI-powered security testing capabilities",
-  version: "0.0.9",
+  version: "0.1.0",
   author: {
     name: "Slonser",
     email: "slonser@neplox.security",
@@ -20,15 +20,15 @@ export default defineConfig({
   plugins: [
     {
       kind: "backend",
-      id: "backend",
+      id: "ebka-backend",
       root: "packages/backend",
     },
     {
       kind: 'frontend',
-      id: "frontend",
+      id: "ebka-frontend",
       root: 'packages/frontend',
       backend: {
-        id: "backend",
+        id: "ebka-backend",
       },
       vite: {
         plugins: [vue()],

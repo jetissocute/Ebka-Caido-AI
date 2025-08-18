@@ -26,3 +26,8 @@ Windows: `code $env:AppData\Claude\claude_desktop_config.json`
      }
    }
 ```
+
+For Cursor integration you need use this path:
+``` bash
+code ~/.cursor/mcp.json
+```

@@ -991,7 +991,7 @@ export const move_replay_session = async (sdk: SDK, input: any) => {
 export const start_replay_task = async (sdk: SDK, input: any) => {
   try {
     const sessionId = input.session_id;
-    const rawRequest = input.raw_request;
+    const rawRequest = input.raw_request + "\r\n\r\n";
     const connection = input.connection;
     const settings = input.settings || {};
 
